@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        start task
+        start tasks
       </header>
     </div>
   );
