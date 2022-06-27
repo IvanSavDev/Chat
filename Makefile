@@ -1,3 +1,4 @@
 start-backend:
-				npx start-server
-
+		npx start-server
+start-frontend:
+		npm start
