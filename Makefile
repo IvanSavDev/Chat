@@ -1,4 +1,4 @@
 start-backend:
-		npx start-server
+		npx start-server -p 5000
 start-frontend:
 		npm start
