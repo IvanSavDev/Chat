@@ -1,1 +1,1 @@
-web: make start-backend
+backend: npm install && npx start-server && npm install --prefix frontend && npm start --prefix frontend
