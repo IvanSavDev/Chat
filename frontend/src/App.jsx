@@ -1,25 +1,36 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import Main from './Layout/Main';
-import NotFoundPage from './Components/NotFoundPage';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import Main from './layout/Main';
+import NotFoundPage from './components/NotFoundPage';
+import { Route, Routes, Link } from 'react-router-dom';
+import AuthProvider from './hoc/AuthProvider';
+import AuthRequire from './hoc/AuthRequire';
 
 const App = () => {
   return (
-    <>
+    <AuthProvider>
       <div className="d-flex flex-column h-100">
         <Navbar bg="light" expand="lg">
           <Container>
-            <Navbar.Brand href="#home">Супер чат</Navbar.Brand>
+            <Navbar.Brand as={Link} to="/">
+              Супер чат
+            </Navbar.Brand>
           </Container>
         </Navbar>
         <Routes>
-          <Route path="/" element={<Navigate to="login" replace />}></Route>
-          <Route path="login" element={<Main />}></Route>
+          <Route
+            path="/"
+            element={
+              <AuthRequire>
+                <p>вы автаризованы</p>
+              </AuthRequire>
+            }
+          ></Route>
+          <Route path="/login" element={<Main />}></Route>
           <Route path="*" element={<NotFoundPage />}></Route>
         </Routes>
       </div>
-    </>
+    </AuthProvider>
   );
 };
 
