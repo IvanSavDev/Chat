@@ -1,6 +1,6 @@
 import LoginForm from './LoginForm';
 
-const Form = () => {
+const Authorization = () => {
   return (
     <div className="row justify-content-center align-content-center h-100">
       <div className="card col-10 col-md-7 col-lg-6 col-xxl-5">
@@ -19,4 +19,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default Authorization;
