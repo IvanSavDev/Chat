@@ -19,23 +19,23 @@ export default function Chat() {
 
   return (
     <Tab.Container id="list-group-tabs-example" defaultActiveKey="#chat1">
-      <Row>
+      {/* <Row>
         <Col xs={4} md={3} lg={2} className="border bg-light py-4">
           <h3>Каналы</h3>
         </Col>
         <Col className="border bg-light py-4">
           <h3>Сообщения</h3>
         </Col>
-      </Row>
-      <Row className="h-75">
+      </Row> */}
+      <Row className="h-100">
         {status === 'pending' && <h2>Loading</h2>}
         {status === 'rejected' && <h2>{error}</h2>}
         {status === 'fulfilled' && (
           <>
-            <Col xs={4} md={3} lg={2} className="border bg-light py-4">
+            <Col xs={4} md={3} lg={2} className="border bg-light py-4 h-100">
               <Channels></Channels>
             </Col>
-            <Col className="border bg-light py-4">
+            <Col className="border bg-light py-4 h-100">
               <Messages></Messages>
             </Col>
           </>

@@ -17,6 +17,9 @@ const channelsSlice = createSlice({
       state.entities.push({ ...action.payload, id: nanoid() });
       state.ids.push(action.payload.id);
     },
+    selectActiveChat: (state, action) => {
+      state.currentChannelId = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -38,5 +41,7 @@ const channelsSlice = createSlice({
       });
   },
 });
+
+export const { selectActiveChat } = channelsSlice.actions;
 
 export default channelsSlice.reducer;

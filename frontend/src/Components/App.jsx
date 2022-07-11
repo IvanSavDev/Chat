@@ -10,7 +10,7 @@ import Chat from './Chat';
 const App = () => {
   return (
     <AuthProvider>
-      <div className="d-flex flex-column h-100">
+      <div className="h-100 d-flex flex-column">
         <Navbar bg="light" expand="lg" className="border">
           <Container>
             <Navbar.Brand as={Link} to="/">
@@ -19,7 +19,7 @@ const App = () => {
             <Button variant="info">Выйти</Button>
           </Container>
         </Navbar>
-        <Container className="h-100 d-flex flex-column justify-content-center">
+        <Container className="h-100 m-3 overflow-hidden">
           <Routes>
             <Route
               path="/"

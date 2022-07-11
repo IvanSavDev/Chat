@@ -4,7 +4,6 @@ export const getDataChat = createAsyncThunk(
   '@@chat/get-data',
   async (_, { extra: { axios, routes } }) => {
     const userId = localStorage.getItem('userId');
-    console.log(`Bearer ${JSON.parse(userId)}`);
     const request = await axios.get(routes.usersPath(), {
       headers: {
         Authorization: `Bearer ${JSON.parse(userId)}`,

@@ -5,6 +5,11 @@ import statusReducer from './loadStartData/data-slice';
 import routes from '../routes';
 import axios from 'axios';
 
+import io from '../../node_modules/socket.io/client-dist/socket.io.js';
+
+const socket = io();
+console.log(socket);
+
 const store = configureStore({
   reducer: {
     channels: channelsReducer,
@@ -17,6 +22,7 @@ const store = configureStore({
         extraArgument: {
           axios,
           routes,
+          socket,
         },
       },
     }),
