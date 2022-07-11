@@ -5,6 +5,8 @@ import { getDataChat, resetData } from '../loadStartData/data-slice';
 const initialState = {
   entities: {},
   ids: [],
+  error: null,
+  status: 'idl',
 };
 
 const messagesSlice = createSlice({

@@ -1,5 +1,4 @@
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
+import { Button, Navbar, Container } from 'react-bootstrap';
 // import Main from '../layout/Main';
 import Authorization from './Authorization';
 import NotFoundPage from './NotFoundPage';
@@ -12,14 +11,15 @@ const App = () => {
   return (
     <AuthProvider>
       <div className="d-flex flex-column h-100">
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="light" expand="lg" className="border">
           <Container>
             <Navbar.Brand as={Link} to="/">
               Супер чат
             </Navbar.Brand>
+            <Button variant="info">Выйти</Button>
           </Container>
         </Navbar>
-        <div className="container-fluid h-100">
+        <Container className="h-100 d-flex flex-column justify-content-center">
           <Routes>
             <Route
               path="/"
@@ -32,7 +32,7 @@ const App = () => {
             <Route path="/login" element={<Authorization />}></Route>
             <Route path="*" element={<NotFoundPage />}></Route>
           </Routes>
-        </div>
+        </Container>
       </div>
     </AuthProvider>
   );
