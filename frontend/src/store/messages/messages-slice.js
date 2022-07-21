@@ -1,36 +1,34 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 import { getDataChat, resetData } from '../loadStartData/data-slice';
+import { removeChannel } from '../channels/channels-slice';
 
 const initialState = {
   entities: {},
   ids: [],
   status: 'fulfilled',
+  error: null,
 };
 
-export const sendMessage = createAsyncThunk(
+export const emitMessage = createAsyncThunk(
   '@@message/send-message',
-  async (message, { getState, extra: { socket } }) => {
-    const channelId = getState().channels.currentChannelId;
-
-    console.log(socket);
-    socket.emit(
-      'newMessage',
-      {
+  async (message, { getState, rejectWithValue, extra: { socket } }) => {
+    try {
+      const channelId = getState().channels.currentChannelId;
+      socket.emit('newMessage', {
         body: message,
         username: 'admin',
         channelId,
-      },
-      (response) => {
-        console.log(response.status);
-      }
-    );
+      });
+    } catch {
+      return rejectWithValue('Failed to send message');
+    }
   }
 );
 
 export const subscribeMesseage = createAsyncThunk(
   '@@message/subscribe-mesages',
-  async (_, { getState, dispatch, extra: { socket } }) => {
+  async (_, { dispatch, extra: { socket } }) => {
     socket.on('newMessage', (payload) => {
       dispatch(addMessage(payload));
     });
@@ -38,7 +36,7 @@ export const subscribeMesseage = createAsyncThunk(
 );
 
 const messagesSlice = createSlice({
-  name: '@@chat/channels-data',
+  name: '@@chat/messages-data',
   initialState,
   reducers: {
     addMessage: (state, action) => {
@@ -63,17 +61,29 @@ const messagesSlice = createSlice({
           (message) => (state.entities[message.id] = { ...message })
         );
       })
+      .addCase(removeChannel, (state, { payload }) => {
+        const currentEntities = state.entities;
+        state.ids.forEach((id) => {
+          if (currentEntities[id].channelId === payload) {
+            delete currentEntities[id];
+          }
+        });
+        state.ids = Object.keys(currentEntities);
+      })
       .addCase(resetData, (state) => {
         state = initialState;
       })
-      .addCase(sendMessage.pending, (state) => {
+      .addCase(emitMessage.pending, (state) => {
         state.status = 'pending';
+        state.error = null;
       })
-      .addCase(sendMessage.rejected, (state, action) => {
+      .addCase(emitMessage.rejected, (state, action) => {
         state.status = 'rejected';
+        state.error = action.payload || action.error.message;
       })
-      .addCase(sendMessage.fulfilled, (state, action) => {
+      .addCase(emitMessage.fulfilled, (state) => {
         state.status = 'fulfilled';
+        state.error = null;
       });
   },
 });

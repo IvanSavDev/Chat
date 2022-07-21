@@ -1,38 +1,30 @@
-import { Button, Navbar, Container } from 'react-bootstrap';
-// import Main from '../layout/Main';
-import Authorization from './Authorization';
-import NotFoundPage from './NotFoundPage';
-import { Route, Routes, Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import AuthProvider from '../hoc/AuthProvider';
-import AuthRequire from '../hoc/AuthRequire';
-import Chat from './Chat';
+import Header from '../layout/Header';
+import Main from '../layout/Main';
+import {
+  subscribeCreateChannel,
+  subscribeRemoveChannel,
+  subscribeRenameChannel,
+} from '../store/channels/channels-slice';
+import { subscribeMesseage } from '../store/messages/messages-slice';
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(subscribeRemoveChannel());
+    dispatch(subscribeMesseage());
+    dispatch(subscribeCreateChannel());
+    dispatch(subscribeRenameChannel());
+  }, []);
+
   return (
     <AuthProvider>
       <div className="h-100 d-flex flex-column">
-        <Navbar bg="light" expand="lg" className="border">
-          <Container>
-            <Navbar.Brand as={Link} to="/">
-              Супер чат
-            </Navbar.Brand>
-            <Button variant="info">Выйти</Button>
-          </Container>
-        </Navbar>
-        <Container className="h-100 m-3 overflow-hidden">
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <AuthRequire>
-                  <Chat></Chat>
-                </AuthRequire>
-              }
-            ></Route>
-            <Route path="/login" element={<Authorization />}></Route>
-            <Route path="*" element={<NotFoundPage />}></Route>
-          </Routes>
-        </Container>
+        <Header />
+        <Main />
       </div>
     </AuthProvider>
   );

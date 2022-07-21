@@ -2,9 +2,9 @@ import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import { Button, Form } from 'react-bootstrap';
 import { useState, useEffect, useRef } from 'react';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
-import routes from '../routes';
+import routes from '../../routes';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
