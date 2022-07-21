@@ -35,7 +35,7 @@ const LoginForm = () => {
         });
         setAuthFailed(false);
         logIn();
-        localStorage.setItem('userId', JSON.stringify(request.data.token));
+        localStorage.setItem('userId', JSON.stringify({ ...request.data }));
         navigate(fromPath);
       } catch (error) {
         setAuthFailed(true);
@@ -92,8 +92,8 @@ const LoginForm = () => {
           </Form.Control.Feedback>
         )}
       </Form.Group>
-      <Button variant="primary" type="submit" className="ms-auto">
-        Авторизация
+      <Button variant="info" type="submit" className="ms-auto">
+        Войти
       </Button>
     </Form>
   );

@@ -1,18 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import {
-  subscribeRemoveChannel,
-  subscribeCreateChannel,
-} from '../channels/channels-slice';
-import { subscribeMesseage } from '../messages/messages-slice';
 
 export const getDataChat = createAsyncThunk(
   '@@chat/get-data',
   async (_, { rejectWithValue, extra: { axios, routes } }) => {
     try {
       const userId = localStorage.getItem('userId');
+      const { token } = JSON.parse(userId);
       const request = await axios.get(routes.usersPath(), {
         headers: {
-          Authorization: `Bearer ${JSON.parse(userId)}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       return request.data;

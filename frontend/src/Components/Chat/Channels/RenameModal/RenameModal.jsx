@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -12,7 +12,6 @@ const RenameModal = ({ idChannel, show, handleClose }) => {
   const renameChannel = (event) => {
     event.preventDefault();
     const nameChannel = event.target.channel.value;
-    console.log(idChannel);
     dispatch(sendRenameChannel({ nameChannel, idChannel }));
     setChannelName('');
   };

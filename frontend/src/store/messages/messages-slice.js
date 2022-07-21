@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 import { getDataChat, resetData } from '../loadStartData/data-slice';
 import { removeChannel } from '../channels/channels-slice';
@@ -15,9 +15,11 @@ export const emitMessage = createAsyncThunk(
   async (message, { getState, rejectWithValue, extra: { socket } }) => {
     try {
       const channelId = getState().channels.currentChannelId;
+      const dataFromLocalStorage = localStorage.getItem('userId');
+      const { username } = JSON.parse(dataFromLocalStorage);
       socket.emit('newMessage', {
         body: message,
-        username: 'admin',
+        username,
         channelId,
       });
     } catch {

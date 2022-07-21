@@ -4,6 +4,8 @@ import NotFoundPage from '../components/Chat/NotFoundPage';
 import { Route, Routes } from 'react-router-dom';
 import AuthRequire from '../hoc/AuthRequire';
 import Chat from '../components/Chat/Chat';
+import Registration from '../components/Chat/Registration/Registration';
+import AuthRegistration from '../hoc/AuthRegistration';
 
 const Main = () => {
   return (
@@ -17,8 +19,16 @@ const Main = () => {
             </AuthRequire>
           }
         ></Route>
-        <Route path="/login" element={<Authorization />}></Route>
-        <Route path="*" element={<NotFoundPage />}></Route>
+        <Route path="/login" element={<Authorization />} />
+        <Route
+          path="/signup"
+          element={
+            <AuthRegistration>
+              <Registration />
+            </AuthRegistration>
+          }
+        />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Container>
   );

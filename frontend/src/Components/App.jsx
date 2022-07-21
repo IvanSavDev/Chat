@@ -18,7 +18,7 @@ const App = () => {
     dispatch(subscribeMesseage());
     dispatch(subscribeCreateChannel());
     dispatch(subscribeRenameChannel());
-  }, []);
+  }, [dispatch]);
 
   return (
     <AuthProvider>

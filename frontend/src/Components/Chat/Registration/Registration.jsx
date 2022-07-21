@@ -1,0 +1,160 @@
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import { Button, Form } from 'react-bootstrap';
+import { useState, useEffect, useRef } from 'react';
+import useAuth from '../../../hooks/useAuth';
+import axios from 'axios';
+// import { Link } from 'react-router-dom';
+import routes from '../../../routes';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+const LoginForm = () => {
+  const [authErrors, setAuthError] = useState('');
+  const { logIn } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const inputEl = useRef();
+  const fromPath = location.state?.from?.pathname || '/';
+
+  const schema = yup.object().shape({
+    username: yup
+      .string()
+      .min(3, 'Необходимо ввести не менее 3 символов')
+      .max(20, 'Максимум 20 символов')
+      .required('Пожалуйста, введите имя'),
+    password: yup
+      .string()
+      .min(6, 'Необходимо ввести не менее 6 символов')
+      .required('Пожалуйста, введите пароль'),
+    confirmPassword: yup
+      .string()
+      .oneOf([yup.ref('password')], 'Пароли не совпадают')
+      .required('Обязательно для ввода'),
+  });
+
+  useEffect(() => {
+    inputEl.current.focus();
+  }, []);
+
+  const formik = useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validationSchema: schema,
+    onSubmit: async ({ username, password }) => {
+      try {
+        const request = await axios.post(routes.signUpPath(), {
+          username,
+          password,
+        });
+        setAuthError('');
+        logIn();
+        console.log(request.data);
+        localStorage.setItem('userId', JSON.stringify({ ...request.data }));
+        navigate(fromPath);
+      } catch (error) {
+        console.log(error);
+        if (error.response.status === 409) {
+          setAuthError('Такой пользователь уже существует');
+        } else {
+          setAuthError('Непредвиденная ошибка, пожалуйста, повторите попытку');
+        }
+      }
+    },
+  });
+  console.log(formik.errors);
+
+  return (
+    <div className="row justify-content-center align-content-center h-100">
+      <div className="card col-10 col-md-7 col-lg-6 col-xxl-5">
+        <h2 className="text-center p-4">Форма регистрации</h2>
+        <div className="card-body mb-4 row justify-content-center">
+          <Form onSubmit={formik.handleSubmit} className="w-75">
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="username">Ваш логин</Form.Label>
+              <Form.Control
+                id="username"
+                name="username"
+                type="text"
+                placeholder="..."
+                ref={inputEl}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.username}
+                isInvalid={
+                  (formik.touched.username && formik.errors.username) ||
+                  authErrors
+                }
+              />
+              {authErrors ? (
+                ''
+              ) : (
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.username}
+                </Form.Control.Feedback>
+              )}
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="password">Пароль</Form.Label>
+              <Form.Control
+                id="password"
+                name="password"
+                type="password"
+                placeholder="..."
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
+                isInvalid={
+                  (formik.touched.password && formik.errors.password) ||
+                  authErrors
+                }
+              />
+              {authErrors ? (
+                ''
+              ) : (
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.password}
+                </Form.Control.Feedback>
+              )}
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="password">Подтверждение пароля</Form.Label>
+              <Form.Control
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                placeholder="..."
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.confirmPassword}
+                isInvalid={
+                  (formik.touched.confirmPassword &&
+                    formik.errors.confirmPassword) ||
+                  authErrors
+                }
+              />
+              {authErrors ? (
+                <Form.Control.Feedback type="invalid">
+                  {authErrors}
+                </Form.Control.Feedback>
+              ) : (
+                <Form.Control.Feedback type="invalid">
+                  {formik.errors.confirmPassword}
+                </Form.Control.Feedback>
+              )}
+            </Form.Group>
+            <Button variant="info" type="submit" className="ms-auto">
+              Регистрация
+            </Button>
+          </Form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LoginForm;
