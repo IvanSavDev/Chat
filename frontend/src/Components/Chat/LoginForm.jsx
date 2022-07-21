@@ -6,8 +6,10 @@ import useAuth from '../../hooks/useAuth';
 import axios from 'axios';
 import routes from '../../routes';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const [authFailed, setAuthFailed] = useState(false);
   const { logIn } = useAuth();
   const location = useLocation();
@@ -25,8 +27,8 @@ const LoginForm = () => {
       password: '',
     },
     validationSchema: object({
-      username: string().required(),
-      password: string().required(),
+      username: string().required(t('forms.requiredName')),
+      password: string().required(t('forms.requiredPassword')),
     }),
     onSubmit: async (values) => {
       try {
@@ -45,7 +47,7 @@ const LoginForm = () => {
   return (
     <Form onSubmit={formik.handleSubmit} className="w-75">
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="username">Ваш логин</Form.Label>
+        <Form.Label htmlFor="username">{t('forms.username')}</Form.Label>
         <Form.Control
           id="username"
           name="username"
@@ -63,13 +65,13 @@ const LoginForm = () => {
           ''
         ) : (
           <Form.Control.Feedback type="invalid">
-            Please enter a username.
+            {formik.errors.username}
           </Form.Control.Feedback>
         )}
       </Form.Group>
 
       <Form.Group className="mb-3">
-        <Form.Label htmlFor="password">Пароль</Form.Label>
+        <Form.Label htmlFor="password">{t('forms.password')}</Form.Label>
         <Form.Control
           id="password"
           name="password"
@@ -84,16 +86,16 @@ const LoginForm = () => {
         />
         {authFailed ? (
           <Form.Control.Feedback type="invalid">
-            Неверные имя пользователя или пароль
+            {t('forms.authFailed')}
           </Form.Control.Feedback>
         ) : (
           <Form.Control.Feedback type="invalid">
-            Please enter a password.
+            {formik.errors.password}
           </Form.Control.Feedback>
         )}
       </Form.Group>
       <Button variant="info" type="submit" className="ms-auto">
-        Войти
+        {t('forms.authorization.logInBtn')}
       </Button>
     </Form>
   );

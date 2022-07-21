@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup } from 'react-bootstrap';
-import { selectActiveChat } from '../../../store/channels/channels-slice';
-import ChannelModal from './CreateModal/Modal';
+import { selectActiveChat } from '../../../slices/channels-slice';
+import ChannelModal from './Modals/CreateModal';
 import Dropdown from 'react-bootstrap/Dropdown';
-import ModalDelete from './DeleteModal/ModalDelete';
-import RenameModal from './RenameModal/RenameModal';
+import ModalDelete from './Modals/DeleteModal';
+import RenameModal from './Modals/RenameModal';
+import { useTranslation } from 'react-i18next';
 
 export default function Channels() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { ids, entities, currentChannelId, error } = useSelector(
     (state) => state.channels
@@ -22,7 +24,7 @@ export default function Channels() {
   return (
     <>
       <div className="mb-2 d-flex">
-        <span className="me-auto">Каналы</span>
+        <span className="me-auto">{t('chat.channels')}</span>
         <ChannelModal></ChannelModal>
         {error ? <span>{error}</span> : ''}
       </div>
@@ -53,13 +55,13 @@ export default function Channels() {
                     />
                     <Dropdown.Menu>
                       <Dropdown.Item as="button" onClick={handleShowModalReset}>
-                        Удалить
+                        {t('chat.removeChannel')}
                       </Dropdown.Item>
                       <Dropdown.Item
                         as="button"
                         onClick={handleShowModalRename}
                       >
-                        Переименовать
+                        {t('chat.renameChannel')}
                       </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>

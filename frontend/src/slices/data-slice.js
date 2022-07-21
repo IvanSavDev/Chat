@@ -26,11 +26,6 @@ const initialState = {
 const statusLoadSlice = createSlice({
   name: '@@chat/channels-data',
   initialState,
-  reducers: {
-    resetData: (state) => {
-      state = initialState;
-    },
-  },
   extraReducers: (builder) => {
     builder
       .addCase(getDataChat.pending, (state) => {

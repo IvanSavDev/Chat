@@ -4,11 +4,12 @@ import { Button, Form } from 'react-bootstrap';
 import { useState, useEffect, useRef } from 'react';
 import useAuth from '../../../hooks/useAuth';
 import axios from 'axios';
-// import { Link } from 'react-router-dom';
 import routes from '../../../routes';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const LoginForm = () => {
+  const { t } = useTranslation();
   const [authErrors, setAuthError] = useState('');
   const { logIn } = useAuth();
   const location = useLocation();
@@ -19,17 +20,17 @@ const LoginForm = () => {
   const schema = yup.object().shape({
     username: yup
       .string()
-      .min(3, 'Необходимо ввести не менее 3 символов')
-      .max(20, 'Максимум 20 символов')
-      .required('Пожалуйста, введите имя'),
+      .min(3, t('forms.registration.minName'))
+      .max(20, t('forms.registration.maxName'))
+      .required(t('forms.requiredName')),
     password: yup
       .string()
-      .min(6, 'Необходимо ввести не менее 6 символов')
-      .required('Пожалуйста, введите пароль'),
+      .min(6, t('forms.registration.minPassword'))
+      .required(t('forms.requiredPassword')),
     confirmPassword: yup
       .string()
-      .oneOf([yup.ref('password')], 'Пароли не совпадают')
-      .required('Обязательно для ввода'),
+      .oneOf([yup.ref('password')], t('forms.registration.notMatchPassword'))
+      .required(t('forms.requiredPassword')),
   });
 
   useEffect(() => {
@@ -51,29 +52,27 @@ const LoginForm = () => {
         });
         setAuthError('');
         logIn();
-        console.log(request.data);
         localStorage.setItem('userId', JSON.stringify({ ...request.data }));
         navigate(fromPath);
       } catch (error) {
         console.log(error);
         if (error.response.status === 409) {
-          setAuthError('Такой пользователь уже существует');
+          setAuthError(t('forms.registration.existUser'));
         } else {
-          setAuthError('Непредвиденная ошибка, пожалуйста, повторите попытку');
+          setAuthError(t('errorNetwork'));
         }
       }
     },
   });
-  console.log(formik.errors);
 
   return (
     <div className="row justify-content-center align-content-center h-100">
       <div className="card col-10 col-md-7 col-lg-6 col-xxl-5">
-        <h2 className="text-center p-4">Форма регистрации</h2>
+        <h2 className="text-center p-4">{t('forms.registration.title')}</h2>
         <div className="card-body mb-4 row justify-content-center">
           <Form onSubmit={formik.handleSubmit} className="w-75">
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="username">Ваш логин</Form.Label>
+              <Form.Label htmlFor="username">{t('forms.username')}</Form.Label>
               <Form.Control
                 id="username"
                 name="username"
@@ -98,7 +97,7 @@ const LoginForm = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="password">Пароль</Form.Label>
+              <Form.Label htmlFor="password">{t('forms.password')}</Form.Label>
               <Form.Control
                 id="password"
                 name="password"
@@ -120,9 +119,10 @@ const LoginForm = () => {
                 </Form.Control.Feedback>
               )}
             </Form.Group>
-
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="password">Подтверждение пароля</Form.Label>
+              <Form.Label htmlFor="password">
+                {t('forms.registration.confirmPassword')}
+              </Form.Label>
               <Form.Control
                 id="confirmPassword"
                 name="confirmPassword"
@@ -148,7 +148,7 @@ const LoginForm = () => {
               )}
             </Form.Group>
             <Button variant="info" type="submit" className="ms-auto">
-              Регистрация
+              {t('forms.registration.button')}
             </Button>
           </Form>
         </div>

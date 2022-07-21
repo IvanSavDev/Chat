@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
-import { getDataChat, resetData } from '../loadStartData/data-slice';
-import { removeChannel } from '../channels/channels-slice';
+import { getDataChat } from './data-slice';
+import { removeChannel } from './channels-slice';
 
 const initialState = {
   entities: {},
@@ -25,15 +25,6 @@ export const emitMessage = createAsyncThunk(
     } catch {
       return rejectWithValue('Failed to send message');
     }
-  }
-);
-
-export const subscribeMesseage = createAsyncThunk(
-  '@@message/subscribe-mesages',
-  async (_, { dispatch, extra: { socket } }) => {
-    socket.on('newMessage', (payload) => {
-      dispatch(addMessage(payload));
-    });
   }
 );
 
@@ -71,9 +62,6 @@ const messagesSlice = createSlice({
           }
         });
         state.ids = Object.keys(currentEntities);
-      })
-      .addCase(resetData, (state) => {
-        state = initialState;
       })
       .addCase(emitMessage.pending, (state) => {
         state.status = 'pending';

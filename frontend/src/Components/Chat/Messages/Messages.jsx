@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  emitMessage,
-  subscribeMesseage,
-} from '../../../store/messages/messages-slice';
+import { emitMessage } from '../../../slices/messages-slice';
 
 export default function Messages() {
   const { ids, entities, status } = useSelector((state) => state.messages);
@@ -28,10 +25,6 @@ export default function Messages() {
   const handleMessage = (event) => {
     setMessage(event.target.value);
   };
-
-  // useEffect(() => {
-  //   dispath(subscribeMesseage());
-  // }, [dispath]);
 
   return (
     <div className="d-flex flex-column h-100">

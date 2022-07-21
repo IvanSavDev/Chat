@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { sendRenameChannel } from '../../../../store/channels/channels-slice';
+import { sendRenameChannel } from '../../../../slices/channels-slice';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const RenameModal = ({ idChannel, show, handleClose }) => {
+  const { t } = useTranslation();
   const [channelName, setChannelName] = useState('');
   const dispatch = useDispatch();
 
@@ -24,12 +26,12 @@ const RenameModal = ({ idChannel, show, handleClose }) => {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Rename channel</Modal.Title>
+          <Modal.Title>{t('modal.renameChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={renameChannel}>
             <Form.Group className="mb-3">
-              <Form.Label>Rename channel</Form.Label>
+              <Form.Label>{t('modal.newName')}</Form.Label>
               <Form.Control
                 value={channelName}
                 type="text"
@@ -44,10 +46,10 @@ const RenameModal = ({ idChannel, show, handleClose }) => {
                 onClick={handleClose}
                 className="me-2"
               >
-                Close
+                {t('modal.close')}
               </Button>
               <Button type="submit" variant="primary" onClick={handleClose}>
-                Rename
+                {t('modal.rename')}
               </Button>
             </div>
           </Form>

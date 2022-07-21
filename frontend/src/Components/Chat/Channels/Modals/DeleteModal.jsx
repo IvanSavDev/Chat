@@ -2,9 +2,11 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch } from 'react-redux';
-import { deleteChannel } from '../../../../store/channels/channels-slice';
+import { deleteChannel } from '../../../../slices/channels-slice';
+import { useTranslation } from 'react-i18next';
 
 const ModalDelete = ({ show, handleClose, idChannel }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const removeChannel = () => {
@@ -15,14 +17,14 @@ const ModalDelete = ({ show, handleClose, idChannel }) => {
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Удалить канал</Modal.Title>
+          <Modal.Title>{t('modal.deleteChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Вы уверены, что хотите удалить канал?</p>
+          <p>{t('modal.deleteBody')}</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Закрыть
+            {t('modal.close')}
           </Button>
           <Button
             type="submit"
@@ -32,7 +34,7 @@ const ModalDelete = ({ show, handleClose, idChannel }) => {
               removeChannel();
             }}
           >
-            Удалить
+            {t('modal.delete')}
           </Button>
         </Modal.Footer>
       </Modal>

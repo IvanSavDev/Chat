@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 
-import { getDataChat, resetData } from '../loadStartData/data-slice';
+import { getDataChat } from './data-slice';
 
 const initialState = {
   entities: {},
@@ -35,23 +35,15 @@ export const sendRenameChannel = createAsyncThunk(
   '@@channel/rename-channel',
   async (
     { nameChannel, idChannel },
-    { getState, rejectWithValue, extra: { socket } }
+    { rejectWithValue, extra: { socket } }
   ) => {
     try {
-      const { ids, entities } = getState().channels;
-      ids.forEach((id) => {
-        if (entities[id].name === nameChannel) {
-          throw Error('A channel with the same name already exists');
-        }
-      });
-      console.log('rename', nameChannel, idChannel);
       socket.emit('renameChannel', {
         name: nameChannel,
         id: idChannel,
       });
     } catch (error) {
-      console.log(error);
-      return rejectWithValue('Failed to create channel');
+      return rejectWithValue('Failed to rename channel');
     }
   }
 );
@@ -62,43 +54,8 @@ export const deleteChannel = createAsyncThunk(
     try {
       socket.emit('removeChannel', { id: idChannel });
     } catch (error) {
-      console.log(error);
       return rejectWithValue('Failed to delete channel');
     }
-  }
-);
-
-export const subscribeCreateChannel = createAsyncThunk(
-  '@@channel/subscribe-createChannel',
-  async (_, { dispatch, extra: { socket } }) => {
-    socket.on('newChannel', (payload) => {
-      dispatch(addChannel(payload));
-      dispatch(selectActiveChat(payload.id));
-    });
-  }
-);
-
-export const subscribeRemoveChannel = createAsyncThunk(
-  '@@channel/subscribe-removeChannel',
-  async (_, { getState, dispatch, extra: { socket } }) => {
-    socket.on('removeChannel', ({ id }) => {
-      const { channels } = getState();
-      const generalChannelId = channels.ids.find((id) => {
-        return channels.entities[id].name === 'general';
-      });
-      dispatch(removeChannel(id));
-      dispatch(selectActiveChat(generalChannelId));
-    });
-  }
-);
-
-export const subscribeRenameChannel = createAsyncThunk(
-  '@@channel/subscribe-renameChannel',
-  async (_, { dispatch, extra: { socket } }) => {
-    socket.on('renameChannel', (payload) => {
-      console.log('sdc');
-      dispatch(renameChannel(payload));
-    });
   }
 );
 
@@ -143,9 +100,6 @@ const channelsSlice = createSlice({
         );
         state.currentChannelId = currentChannelId;
       })
-      .addCase(resetData, (state) => {
-        state = initialState;
-      })
       .addCase(emitChannel.pending, (state) => {
         state.status = 'pending';
         state.error = null;
@@ -154,7 +108,7 @@ const channelsSlice = createSlice({
         state.status = 'rejected';
         state.error = action.payload || action.error.message;
       })
-      .addCase(emitChannel.fulfilled, (state, action) => {
+      .addCase(emitChannel.fulfilled, (state) => {
         state.status = 'fulfilled';
         state.error = null;
       });
