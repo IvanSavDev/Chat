@@ -3,6 +3,7 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { emitMessage } from '../../../slices/messages-slice';
 import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
 
 export default function Messages() {
   const { t } = useTranslation();
@@ -16,7 +17,7 @@ export default function Messages() {
     try {
       event.preventDefault();
       const value = event.target.message.value;
-      await dispatch(emitMessage(value)).unwrap();
+      await dispatch(emitMessage(leoProfanity.clean(value))).unwrap();
       setMessage('');
       ref.current.focus();
     } catch {

@@ -17,9 +17,13 @@ import { io } from '../node_modules/socket.io/client-dist/socket.io';
 import i18next from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import { locales } from './locales/index';
+import leoProfanity from 'leo-profanity';
 
 const InitialState = async () => {
   const i18n = i18next.createInstance();
+
+  const ruDict = leoProfanity.getDictionary('ru');
+  leoProfanity.add(ruDict);
 
   await i18n.use(initReactI18next).init({
     debug: true,
