@@ -2,20 +2,26 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { emitMessage } from '../../../slices/messages-slice';
+import { useTranslation } from 'react-i18next';
 
 export default function Messages() {
+  const { t } = useTranslation();
   const { ids, entities, status } = useSelector((state) => state.messages);
   const { currentChannelId } = useSelector((state) => state.channels);
   const ref = useRef();
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const value = event.target.message.value;
-    dispatch(emitMessage(value));
-    setMessage('');
-    ref.current.focus();
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const value = event.target.message.value;
+      await dispatch(emitMessage(value)).unwrap();
+      setMessage('');
+      ref.current.focus();
+    } catch {
+      console.log('ooops');
+    }
   };
 
   useEffect(() => {
@@ -28,7 +34,7 @@ export default function Messages() {
 
   return (
     <div className="d-flex flex-column h-100">
-      <h2>Сообщения</h2>
+      <h3>{t('chat.messages')}</h3>
       <div className="overflow-auto mb-2 p-3">
         {ids.map((idMessage) => {
           const currentMessage = entities[idMessage];
@@ -51,15 +57,11 @@ export default function Messages() {
             ref={ref}
             onChange={handleMessage}
             name="message"
-            placeholder="Напишите ваше сообщение здесь"
+            placeholder={t('chat.placeholderMessages')}
             value={message}
           />
-          <Button
-            variant="info"
-            type="submit"
-            disabled={status !== 'fulfilled' || !message}
-          >
-            Submit
+          <Button variant="info" type="submit" disabled={!message}>
+            {t('chat.send')}
           </Button>
         </InputGroup>
       </Form>

@@ -33,6 +33,9 @@ export const ruLocal = {
         channels: 'Каналы',
         removeChannel: 'Удалить',
         renameChannel: 'Переименовать',
+        messages: 'Сообщения',
+        placeholderMessages: 'Напишите ваше сообщение здесь',
+        send: 'Отправить',
       },
       modal: {
         renameChannel: 'Переименовать канал',
@@ -48,7 +51,14 @@ export const ruLocal = {
         channelExist: 'Такой канал уже существует',
       },
       loading: 'Загрузка...',
-      errorNetwork: 'Ошибка с сетью, пожалуйста, повторите попытку',
+      notify: {
+        createChannel: 'Канал создан',
+        deleteChannel: 'Канал удален',
+        renameChannel: 'Канал переименован',
+        error: 'Произошла ошибка, пожалуйста, повторите попытку',
+      },
+      networkError: 'Ошибка с сетью, пожалуйста, повторите попытку',
+      unknownError: 'Неизвестная ошибка',
     },
   },
 };

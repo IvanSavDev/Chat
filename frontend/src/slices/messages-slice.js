@@ -2,12 +2,12 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 import { getDataChat } from './data-slice';
 import { removeChannel } from './channels-slice';
-
+import { toast } from 'react-toastify';
 const initialState = {
   entities: {},
   ids: [],
-  status: 'fulfilled',
-  error: null,
+  // status: 'fulfilled',
+  // error: null,
 };
 
 export const emitMessage = createAsyncThunk(
@@ -23,6 +23,7 @@ export const emitMessage = createAsyncThunk(
         channelId,
       });
     } catch {
+      toast.error('oops messegae');
       return rejectWithValue('Failed to send message');
     }
   }
@@ -62,19 +63,19 @@ const messagesSlice = createSlice({
           }
         });
         state.ids = Object.keys(currentEntities);
-      })
-      .addCase(emitMessage.pending, (state) => {
-        state.status = 'pending';
-        state.error = null;
-      })
-      .addCase(emitMessage.rejected, (state, action) => {
-        state.status = 'rejected';
-        state.error = action.payload || action.error.message;
-      })
-      .addCase(emitMessage.fulfilled, (state) => {
-        state.status = 'fulfilled';
-        state.error = null;
       });
+    // .addCase(emitMessage.pending, (state) => {
+    //   state.status = 'pending';
+    //   state.error = null;
+    // })
+    // .addCase(emitMessage.rejected, (state, action) => {
+    //   state.status = 'rejected';
+    //   state.error = action.payload || action.error.message;
+    // })
+    // .addCase(emitMessage.fulfilled, (state) => {
+    //   state.status = 'fulfilled';
+    //   state.error = null;
+    // });
   },
 });
 

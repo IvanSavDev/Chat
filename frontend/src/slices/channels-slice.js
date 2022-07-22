@@ -13,49 +13,27 @@ const initialState = {
 
 export const emitChannel = createAsyncThunk(
   '@@channel/create-channel',
-  async (nameChannel, { getState, rejectWithValue, extra: { socket } }) => {
-    try {
-      const { ids, entities } = getState().channels;
-      ids.forEach((id) => {
-        if (entities[id].name === nameChannel) {
-          throw Error('A channel with the same name already exists');
-        }
-      });
-      socket.emit('newChannel', {
-        name: nameChannel,
-      });
-    } catch (error) {
-      console.log(error);
-      return rejectWithValue('Failed to create channel');
-    }
+  async (nameChannel, { extra: { socket } }) => {
+    socket.emit('newChannel', {
+      name: nameChannel,
+    });
   }
 );
 
 export const sendRenameChannel = createAsyncThunk(
   '@@channel/rename-channel',
-  async (
-    { nameChannel, idChannel },
-    { rejectWithValue, extra: { socket } }
-  ) => {
-    try {
-      socket.emit('renameChannel', {
-        name: nameChannel,
-        id: idChannel,
-      });
-    } catch (error) {
-      return rejectWithValue('Failed to rename channel');
-    }
+  async ({ nameChannel, idChannel }, { extra: { socket } }) => {
+    socket.emit('renameChannel', {
+      name: nameChannel,
+      id: idChannel,
+    });
   }
 );
 
 export const deleteChannel = createAsyncThunk(
   '@@channel/delete-channel',
-  async (idChannel, { rejectWithValue, extra: { socket } }) => {
-    try {
-      socket.emit('removeChannel', { id: idChannel });
-    } catch (error) {
-      return rejectWithValue('Failed to delete channel');
-    }
+  async (idChannel, { extra: { socket } }) => {
+    socket.emit('removeChannel', { id: idChannel });
   }
 );
 
@@ -73,7 +51,6 @@ const channelsSlice = createSlice({
       }
     },
     renameChannel: (state, action) => {
-      console.log(action, 'rename');
       const { id } = action.payload;
       state.entities[id] = { ...state.entities[id], ...action.payload };
     },
@@ -93,25 +70,30 @@ const channelsSlice = createSlice({
         if (!isEqual(state.ids, idChannels)) {
           state.ids = idChannels;
         }
-
         channels.forEach(
           (channel) =>
             (state.entities[channel.id] = { ...channel, messages: [] })
         );
         state.currentChannelId = currentChannelId;
       })
-      .addCase(emitChannel.pending, (state) => {
-        state.status = 'pending';
-        state.error = null;
-      })
-      .addCase(emitChannel.rejected, (state, action) => {
-        state.status = 'rejected';
-        state.error = action.payload || action.error.message;
-      })
-      .addCase(emitChannel.fulfilled, (state) => {
-        state.status = 'fulfilled';
-        state.error = null;
-      });
+      .addMatcher(
+        (action) => action.type.endsWith('/pending'),
+        (state) => {
+          state.status = 'pending';
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith('/rejected'),
+        (state) => {
+          state.status = 'pending';
+        }
+      )
+      .addMatcher(
+        (action) => action.type.endsWith('/fulfilled'),
+        (state) => {
+          state.status = 'fulfilled';
+        }
+      );
   },
 });
 

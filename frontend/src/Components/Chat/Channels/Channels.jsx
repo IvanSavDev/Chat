@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { selectActiveChat } from '../../../slices/channels-slice';
 import ChannelModal from './Modals/CreateModal';
-import Dropdown from 'react-bootstrap/Dropdown';
-import ModalDelete from './Modals/DeleteModal';
+import DeleteModal from './Modals/DeleteModal';
 import RenameModal from './Modals/RenameModal';
 import { useTranslation } from 'react-i18next';
 
 export default function Channels() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { ids, entities, currentChannelId, error } = useSelector(
+  const { ids, entities, currentChannelId, status } = useSelector(
     (state) => state.channels
   );
   const [showModalReset, setShowModalReset] = useState(false);
@@ -21,19 +20,27 @@ export default function Channels() {
   const handleCloseModalRename = () => setShowModalRename(false);
   const handleShowModalRename = () => setShowModalRename(true);
 
+  const isExistChannel = (nameChannel) => {
+    const namesChannels = ids.map((id) => entities[id].name);
+    const isExistName = namesChannels.includes(nameChannel);
+    return isExistName;
+  };
+
   return (
     <>
       <div className="mb-2 d-flex">
         <span className="me-auto">{t('chat.channels')}</span>
-        <ChannelModal></ChannelModal>
-        {error ? <span>{error}</span> : ''}
+        <ChannelModal
+          isExistChannel={isExistChannel}
+          status={status}
+        ></ChannelModal>
       </div>
       <div>
         {ids.map((id) => {
           const currentChannel = entities[id];
           return (
             <div key={id} className="mb-3">
-              {entities[id].removable ? (
+              {currentChannel.removable ? (
                 <>
                   <Dropdown as={ButtonGroup} className="w-100">
                     <Button
@@ -63,18 +70,21 @@ export default function Channels() {
                       >
                         {t('chat.renameChannel')}
                       </Dropdown.Item>
+                      <DeleteModal
+                        handleClose={handleCloseModalReset}
+                        show={showModalReset}
+                        idChannel={id}
+                        status={status}
+                      ></DeleteModal>
+                      <RenameModal
+                        handleClose={handleCloseModalRename}
+                        show={showModalRename}
+                        idChannel={id}
+                        isExistChannel={isExistChannel}
+                        status={status}
+                      ></RenameModal>
                     </Dropdown.Menu>
                   </Dropdown>
-                  <ModalDelete
-                    handleClose={handleCloseModalReset}
-                    show={showModalReset}
-                    idChannel={id}
-                  ></ModalDelete>
-                  <RenameModal
-                    handleClose={handleCloseModalRename}
-                    show={showModalRename}
-                    idChannel={id}
-                  ></RenameModal>
                 </>
               ) : (
                 <Button

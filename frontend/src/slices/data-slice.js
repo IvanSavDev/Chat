@@ -2,19 +2,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getDataChat = createAsyncThunk(
   '@@chat/get-data',
-  async (_, { rejectWithValue, extra: { axios, routes } }) => {
-    try {
-      const userId = localStorage.getItem('userId');
-      const { token } = JSON.parse(userId);
-      const request = await axios.get(routes.usersPath(), {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return request.data;
-    } catch {
-      return rejectWithValue('Authorisation Error');
-    }
+  async (_, { extra: { axios, routes } }) => {
+    const userId = localStorage.getItem('userId');
+    const { token } = JSON.parse(userId);
+    const request = await axios.get(routes.usersPath(), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return request.data;
   }
 );
 

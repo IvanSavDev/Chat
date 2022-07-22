@@ -3,16 +3,19 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { emitChannel } from '../../../../slices/channels-slice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import { CloseButton } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
-const ChannelModal = () => {
+const ChannelModal = ({ isExistChannel }) => {
   const { t } = useTranslation();
   const [show, setShow] = useState(false);
-  const stateChannels = useSelector((state) => state.channels);
   const [channelName, setChannelName] = useState('');
   const [existName, setExistName] = useState(false);
   const dispatch = useDispatch();
+  const { status } = useSelector((state) => state.channels);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -23,20 +26,19 @@ const ChannelModal = () => {
     setChannelName('');
   };
 
-  const createChannel = (event) => {
-    event.preventDefault();
-    const nameChannel = event.target.channel.value;
-    const { ids, entities } = stateChannels;
-    let exist = false;
-    ids.forEach((id) => {
-      if (entities[id].name === nameChannel) {
-        exist = true;
-        setExistName(true);
+  const createChannel = async (event) => {
+    try {
+      event.preventDefault();
+      const nameChannel = event.target.channel.value;
+      const existChannel = isExistChannel(nameChannel);
+      if (!existChannel) {
+        await dispatch(emitChannel(nameChannel)).unwrap();
+        closeModal();
+        toast.success(t('notify.createChannel'));
       }
-    });
-    if (!exist) {
-      dispatch(emitChannel(nameChannel));
-      closeModal();
+      setExistName(existChannel);
+    } catch {
+      toast.error(t('notify.error'));
     }
   };
 
@@ -53,9 +55,13 @@ const ChannelModal = () => {
       >
         +
       </button>
-      <Modal show={show} onHide={closeModal}>
-        <Modal.Header closeButton>
+      <Modal show={show} onHide={() => status === 'pending' || closeModal()}>
+        <Modal.Header>
           <Modal.Title>{t('modal.createChannel')}</Modal.Title>
+          <CloseButton
+            onClick={closeModal}
+            disabled={status === 'pending'}
+          ></CloseButton>
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={createChannel}>
@@ -74,10 +80,19 @@ const ChannelModal = () => {
               </Form.Control.Feedback>
             </Form.Group>
             <div className="d-flex justify-content-end">
-              <Button variant="secondary" onClick={closeModal} className="me-2">
+              <Button
+                variant="secondary"
+                onClick={closeModal}
+                className="me-2"
+                disabled={status === 'pending'}
+              >
                 {t('modal.close')}
               </Button>
-              <Button type="submit" variant="primary">
+              <Button
+                type="submit"
+                variant="primary"
+                disabled={status === 'pending'}
+              >
                 {t('modal.create')}
               </Button>
             </div>
