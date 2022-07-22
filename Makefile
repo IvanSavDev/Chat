@@ -9,3 +9,6 @@ start:
 
 deploy:
 	git push heroku main
+
+install:
+	npm ci && npm run postinstal

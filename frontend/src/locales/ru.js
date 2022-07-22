@@ -2,12 +2,12 @@ export const ruLocal = {
   ru: {
     translation: {
       header: {
-        title: 'Супер чат',
+        title: 'Hexlet Chat',
         logOutBtn: 'Выйти',
       },
       notFoundPage: 'Страница не найдена',
       forms: {
-        username: 'Ваш логин',
+        username: 'Ваш ник',
         password: 'Пароль',
         authFailed: 'Неверные имя пользователя или пароль',
         requiredName: 'Требуется имя',
@@ -19,14 +19,15 @@ export const ruLocal = {
           link: 'Регистрация',
         },
         registration: {
+          username: 'Имя пользователя',
           title: 'Форма регистрации',
-          notMatchPassword: 'Пароли не совпадают',
-          minPassword: 'Необходимо ввести не менее 6 символов',
-          minName: 'Необходимо ввести не менее 3 символов',
-          maxName: 'Максимум 20 символов',
+          notMatchPassword: 'Пароли должны совпадать',
+          minPassword: 'Не менее 6 символов',
+          minName: 'От 3 до 20 символов',
+          maxName: 'От 3 до 20 символов',
           existUser: 'Такой пользователь уже существует',
-          confirmPassword: 'Подтверждение пароля',
-          button: 'Регистрация',
+          confirmPassword: 'Подтвердите пароль',
+          button: 'Зарегистрироваться',
         },
       },
       chat: {
@@ -57,7 +58,7 @@ export const ruLocal = {
         renameChannel: 'Канал переименован',
         error: 'Произошла ошибка, пожалуйста, повторите попытку',
       },
-      networkError: 'Ошибка с сетью, пожалуйста, повторите попытку',
+      networkError: 'Ошибка соединения',
       unknownError: 'Неизвестная ошибка',
     },
   },

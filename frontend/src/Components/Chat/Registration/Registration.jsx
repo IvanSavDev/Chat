@@ -72,7 +72,9 @@ const LoginForm = () => {
         <div className="card-body mb-4 row justify-content-center">
           <Form onSubmit={formik.handleSubmit} className="w-75">
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="username">{t('forms.username')}</Form.Label>
+              <Form.Label htmlFor="username">
+                {t('forms.registration.username')}
+              </Form.Label>
               <Form.Control
                 id="username"
                 name="username"
