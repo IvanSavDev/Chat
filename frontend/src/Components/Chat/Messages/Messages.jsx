@@ -7,7 +7,7 @@ import leoProfanity from 'leo-profanity';
 
 export default function Messages() {
   const { t } = useTranslation();
-  const { ids, entities, status } = useSelector((state) => state.messages);
+  const { ids, entities } = useSelector((state) => state.messages);
   const { currentChannelId } = useSelector((state) => state.channels);
   const ref = useRef();
   const [message, setMessage] = useState('');
