@@ -5,9 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: move in frontend
-        run: cd frontend
       - name: npm install
-        run: make install
+        run: make install-frontend
       - name: Run Linter
-        run: make lint
+        run: make lint-frontend

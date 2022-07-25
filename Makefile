@@ -11,7 +11,10 @@ deploy:
 	git push heroku main
 
 install:
-	npm ci && npm run postinstal
+	npm ci && npm run postinstall
+
+install-frontend:
+	npm run postinstall
 
 lint-frontend:
 	make -C frontend lint
