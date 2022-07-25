@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import Messages from './Messages/Messages';
-import Channels from './Channels/Channels';
-import { getDataChat } from '../../slices/data-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tab, Row, Col } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import Messages from './Messages/Messages';
+import Channels from './Channels/Channels';
+import { getDataChat } from '../../slices/data-slice';
 
 export default function Chat() {
   const { t } = useTranslation();

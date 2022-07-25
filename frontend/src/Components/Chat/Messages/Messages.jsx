@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { emitMessage } from '../../../slices/messages-slice';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
+import { emitMessage } from '../../../slices/messages-slice';
 
 export default function Messages() {
   const { t } = useTranslation();
@@ -16,7 +16,7 @@ export default function Messages() {
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
-      const value = event.target.message.value;
+      const { value } = event.target.message;
       await dispatch(emitMessage(leoProfanity.clean(value))).unwrap();
       setMessage('');
       ref.current.focus();

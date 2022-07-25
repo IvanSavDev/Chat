@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { selectActiveChat } from '../../../slices/channels-slice';
 import ChannelModal from './Modals/CreateModal';
 import DeleteModal from './Modals/DeleteModal';
 import RenameModal from './Modals/RenameModal';
-import { useTranslation } from 'react-i18next';
 
 export default function Channels() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { ids, entities, currentChannelId, status } = useSelector(
-    (state) => state.channels
+  const {
+    ids,
+    entities,
+    currentChannelId,
+    status,
+  } = useSelector(
+    (state) => state.channels,
   );
   const [showModalReset, setShowModalReset] = useState(false);
   const [showModalRename, setShowModalRename] = useState(false);

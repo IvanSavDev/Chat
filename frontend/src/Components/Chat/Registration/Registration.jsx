@@ -1,12 +1,12 @@
+import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Button, Form } from 'react-bootstrap';
-import { useState, useEffect, useRef } from 'react';
-import useAuth from '../../../hooks/useAuth';
 import axios from 'axios';
-import routes from '../../../routes';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import useAuth from '../../../hooks/useAuth';
+import routes from '../../../routes';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -85,9 +85,7 @@ const LoginForm = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
                 isInvalid={
-                  (formik.touched.username && formik.errors.username) ||
-                  authErrors
-                }
+                  (formik.touched.username && formik.errors.username) || authErrors}
               />
               {authErrors ? (
                 ''
@@ -109,9 +107,7 @@ const LoginForm = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
                 isInvalid={
-                  (formik.touched.password && formik.errors.password) ||
-                  authErrors
-                }
+                  (formik.touched.password && formik.errors.password) || authErrors}
               />
               {authErrors ? (
                 ''
@@ -134,10 +130,7 @@ const LoginForm = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.confirmPassword}
                 isInvalid={
-                  (formik.touched.confirmPassword &&
-                    formik.errors.confirmPassword) ||
-                  authErrors
-                }
+                  (formik.touched.confirmPassword && formik.errors.confirmPassword) || authErrors}
               />
               {authErrors ? (
                 <Form.Control.Feedback type="invalid">

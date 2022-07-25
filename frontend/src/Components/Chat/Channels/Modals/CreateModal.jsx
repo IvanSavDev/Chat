@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { emitChannel } from '../../../../slices/channels-slice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { CloseButton } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { emitChannel } from '../../../../slices/channels-slice';
 
 const ChannelModal = ({ isExistChannel }) => {
   const { t } = useTranslation();

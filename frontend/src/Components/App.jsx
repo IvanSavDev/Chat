@@ -1,11 +1,11 @@
+import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import AuthProvider from '../hoc/AuthProvider';
 import Header from '../layout/Header';
 import Main from '../layout/Main';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const App = () => {
-  return (
+const App = () => (
     <AuthProvider>
       <ToastContainer />
       <div className="h-100 d-flex flex-column">
@@ -13,7 +13,6 @@ const App = () => {
         <Main />
       </div>
     </AuthProvider>
-  );
-};
+);
 
 export default App;

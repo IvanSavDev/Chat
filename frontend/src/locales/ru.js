@@ -1,4 +1,4 @@
-export const ruLocal = {
+const ruLocal = {
   ru: {
     translation: {
       header: {
@@ -63,3 +63,5 @@ export const ruLocal = {
     },
   },
 };
+
+export default ruLocal;

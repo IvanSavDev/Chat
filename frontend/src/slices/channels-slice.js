@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 
@@ -17,7 +18,7 @@ export const emitChannel = createAsyncThunk(
     socket.emit('newChannel', {
       name: nameChannel,
     });
-  }
+  },
 );
 
 export const sendRenameChannel = createAsyncThunk(
@@ -27,14 +28,14 @@ export const sendRenameChannel = createAsyncThunk(
       name: nameChannel,
       id: idChannel,
     });
-  }
+  },
 );
 
 export const deleteChannel = createAsyncThunk(
   '@@channel/delete-channel',
   async (idChannel, { extra: { socket } }) => {
     socket.emit('removeChannel', { id: idChannel });
-  }
+  },
 );
 
 const channelsSlice = createSlice({
@@ -44,7 +45,6 @@ const channelsSlice = createSlice({
     addChannel: (state, action) => {
       const { id } = action.payload;
       const idsState = state.ids;
-
       state.entities[id] = { ...action.payload, messages: [] };
       if (!idsState.includes(id)) {
         state.ids.push(id);
@@ -70,34 +70,34 @@ const channelsSlice = createSlice({
         if (!isEqual(state.ids, idChannels)) {
           state.ids = idChannels;
         }
-        channels.forEach(
-          (channel) =>
-            (state.entities[channel.id] = { ...channel, messages: [] })
-        );
+        channels.forEach((channel) => {
+          state.entities[channel.id] = { ...channel, messages: [] };
+        });
         state.currentChannelId = currentChannelId;
       })
       .addMatcher(
         (action) => action.type.endsWith('/pending'),
         (state) => {
           state.status = 'pending';
-        }
+        },
       )
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state) => {
           state.status = 'pending';
-        }
+        },
       )
       .addMatcher(
         (action) => action.type.endsWith('/fulfilled'),
         (state) => {
           state.status = 'fulfilled';
-        }
+        },
       );
   },
 });
 
-export const { selectActiveChat, addChannel, removeChannel, renameChannel } =
-  channelsSlice.actions;
+export const {
+  selectActiveChat, addChannel, removeChannel, renameChannel,
+} = channelsSlice.actions;
 
 export default channelsSlice.reducer;

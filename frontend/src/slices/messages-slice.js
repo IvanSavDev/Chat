@@ -1,32 +1,26 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 import { getDataChat } from './data-slice';
 import { removeChannel } from './channels-slice';
-import { toast } from 'react-toastify';
+
 const initialState = {
   entities: {},
   ids: [],
-  // status: 'fulfilled',
-  // error: null,
 };
 
 export const emitMessage = createAsyncThunk(
   '@@message/send-message',
-  async (message, { getState, rejectWithValue, extra: { socket } }) => {
-    try {
-      const channelId = getState().channels.currentChannelId;
-      const dataFromLocalStorage = localStorage.getItem('userId');
-      const { username } = JSON.parse(dataFromLocalStorage);
-      socket.emit('newMessage', {
-        body: message,
-        username,
-        channelId,
-      });
-    } catch {
-      toast.error('oops messegae');
-      return rejectWithValue('Failed to send message');
-    }
-  }
+  async (message, { getState, extra: { socket } }) => {
+    const channelId = getState().channels.currentChannelId;
+    const dataFromLocalStorage = localStorage.getItem('userId');
+    const { username } = JSON.parse(dataFromLocalStorage);
+    socket.emit('newMessage', {
+      body: message,
+      username,
+      channelId,
+    });
+  },
 );
 
 const messagesSlice = createSlice({
@@ -51,9 +45,9 @@ const messagesSlice = createSlice({
         if (!isEqual(state.ids, idMessages)) {
           state.ids = idMessages;
         }
-        messages.forEach(
-          (message) => (state.entities[message.id] = { ...message })
-        );
+        messages.forEach((message) => {
+          state.entities[message.id] = { ...message };
+        });
       })
       .addCase(removeChannel, (state, { payload }) => {
         const currentEntities = state.entities;
@@ -64,18 +58,6 @@ const messagesSlice = createSlice({
         });
         state.ids = Object.keys(currentEntities);
       });
-    // .addCase(emitMessage.pending, (state) => {
-    //   state.status = 'pending';
-    //   state.error = null;
-    // })
-    // .addCase(emitMessage.rejected, (state, action) => {
-    //   state.status = 'rejected';
-    //   state.error = action.payload || action.error.message;
-    // })
-    // .addCase(emitMessage.fulfilled, (state) => {
-    //   state.status = 'fulfilled';
-    //   state.error = null;
-    // });
   },
 });
 

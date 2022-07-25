@@ -12,3 +12,6 @@ deploy:
 
 install:
 	npm ci && npm run postinstal
+
+lint-frontend:
+	make -C frontend lint

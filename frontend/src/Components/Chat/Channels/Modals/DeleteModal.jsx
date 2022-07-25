@@ -1,11 +1,13 @@
 import React from 'react';
 import { CloseButton, Button, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { deleteChannel } from '../../../../slices/channels-slice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { deleteChannel } from '../../../../slices/channels-slice';
 
-const DeleteModal = ({ show, handleClose, idChannel, status }) => {
+const DeleteModal = ({
+  show, handleClose, idChannel, status,
+}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const removeChannel = async () => {

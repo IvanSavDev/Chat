@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getDataChat = createAsyncThunk(
@@ -11,7 +12,7 @@ export const getDataChat = createAsyncThunk(
       },
     });
     return request.data;
-  }
+  },
 );
 
 const initialState = {

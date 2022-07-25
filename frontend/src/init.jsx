@@ -2,6 +2,13 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
+import axios from 'axios';
+import i18next from 'i18next';
+import { initReactI18next, I18nextProvider } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
+import locales from './locales/index';
+// eslint-disable-next-line import/no-relative-packages
+import { io } from '../node_modules/socket.io/client-dist/socket.io';
 import channelsReducer, {
   addChannel,
   renameChannel,
@@ -11,13 +18,7 @@ import channelsReducer, {
 import messagesReducer, { addMessage } from './slices/messages-slice';
 import statusReducer from './slices/data-slice';
 import routes from './routes';
-import axios from 'axios';
 import App from './components/App';
-import { io } from '../node_modules/socket.io/client-dist/socket.io';
-import i18next from 'i18next';
-import { initReactI18next, I18nextProvider } from 'react-i18next';
-import { locales } from './locales/index';
-import leoProfanity from 'leo-profanity';
 
 const InitialState = async () => {
   const i18n = i18next.createInstance();
@@ -44,23 +45,20 @@ const InitialState = async () => {
       messages: messagesReducer,
       statusAuthorization: statusReducer,
     },
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
-        thunk: {
-          extraArgument: {
-            axios,
-            routes,
-            socket,
-          },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+      thunk: {
+        extraArgument: {
+          axios,
+          routes,
+          socket,
         },
-      }),
+      },
+    }),
   });
 
   socket.on('removeChannel', ({ id }) => {
     const { channels } = store.getState();
-    const generalChannelId = channels.ids.find((id) => {
-      return channels.entities[id].name === 'general';
-    });
+    const generalChannelId = channels.ids.find((idChannel) => channels.entities[idChannel].name === 'general');
     store.dispatch(removeChannel(id));
     store.dispatch(selectActiveChat(generalChannelId));
   });

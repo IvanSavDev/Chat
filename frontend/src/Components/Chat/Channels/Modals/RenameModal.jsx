@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { CloseButton, Button, Modal, Form } from 'react-bootstrap';
-import { sendRenameChannel } from '../../../../slices/channels-slice';
+import {
+  CloseButton, Button, Modal, Form,
+} from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { sendRenameChannel } from '../../../../slices/channels-slice';
 
 const RenameModal = ({
   idChannel,
@@ -23,7 +25,7 @@ const RenameModal = ({
     setChannelName('');
   };
 
-  const renameChannel = (id) => async (event) => {
+  const renameChannel = async (event) => {
     try {
       event.preventDefault();
       const nameChannel = event.target.channel.value;
@@ -52,7 +54,7 @@ const RenameModal = ({
           ></CloseButton>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={renameChannel(idChannel)}>
+          <Form onSubmit={renameChannel}>
             <Form.Group className="mb-3">
               <Form.Label>{t('modal.newName')}</Form.Label>
               <Form.Control

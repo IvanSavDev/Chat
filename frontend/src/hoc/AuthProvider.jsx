@@ -1,8 +1,8 @@
+import React, { useState } from 'react';
 import AuthContext from '../context/AuthContext';
-import { useState } from 'react';
 
 export default function AuthProvider({ children }) {
-  const isLogged = localStorage.getItem('userId') ? true : false;
+  const isLogged = !!localStorage.getItem('userId');
 
   const [loggedIn, setLoggedIn] = useState(isLogged);
 

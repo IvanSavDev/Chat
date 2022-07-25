@@ -1,0 +1,13 @@
+name: githubAction
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: move in frontend
+        run: cd frontend
+      - name: npm install
+        run: make install
+      - name: Run Linter
+        run: make lint
