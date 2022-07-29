@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AuthContext from '../Context/AuthContext';
+import AuthContext from '../context/AuthContext';
 
 export default function AuthProvider({ children }) {
   const isLogged = !!localStorage.getItem('userId');

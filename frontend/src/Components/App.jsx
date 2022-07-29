@@ -1,6 +1,6 @@
 import React from 'react';
 import { ToastContainer } from 'react-toastify';
-import AuthProvider from '../Hoc/AuthProvider';
+import AuthProvider from '../hoc/AuthProvider';
 import Header from '../Layout/Header';
 import Main from '../Layout/Main';
 import 'react-toastify/dist/ReactToastify.css';
