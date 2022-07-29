@@ -6,7 +6,7 @@ import axios from 'axios';
 import i18next from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
-import locales from './Locales/index';
+import locales from './locales/index';
 // eslint-disable-next-line import/no-relative-packages
 import { io } from '../node_modules/socket.io/client-dist/socket.io';
 import channelsReducer, {
