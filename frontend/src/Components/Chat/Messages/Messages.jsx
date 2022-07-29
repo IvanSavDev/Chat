@@ -3,7 +3,7 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
-import { emitMessage } from '../../../slices/messages-slice';
+import { emitMessage } from '../../../Slices/messages-slice';
 
 export default function Messages() {
   const { t } = useTranslation();

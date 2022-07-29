@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { object, string } from 'yup';
 import { Button, Form } from 'react-bootstrap';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../Hooks/useAuth';
 import routes from '../../routes';
 
 const LoginForm = () => {

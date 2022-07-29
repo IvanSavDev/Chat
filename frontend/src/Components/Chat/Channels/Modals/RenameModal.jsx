@@ -5,7 +5,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { sendRenameChannel } from '../../../../slices/channels-slice';
+import { sendRenameChannel } from '../../../../Slices/channels-slice';
 
 const RenameModal = ({
   idChannel,

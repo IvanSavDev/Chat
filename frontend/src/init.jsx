@@ -6,7 +6,7 @@ import axios from 'axios';
 import i18next from 'i18next';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
-import locales from './locales/index';
+import locales from './Locales/index';
 // eslint-disable-next-line import/no-relative-packages
 import { io } from '../node_modules/socket.io/client-dist/socket.io';
 import channelsReducer, {
@@ -14,9 +14,9 @@ import channelsReducer, {
   renameChannel,
   removeChannel,
   selectActiveChat,
-} from './slices/channels-slice';
-import messagesReducer, { addMessage } from './slices/messages-slice';
-import statusReducer from './slices/data-slice';
+} from './Slices/channels-slice';
+import messagesReducer, { addMessage } from './Slices/messages-slice';
+import statusReducer from './Slices/data-slice';
 import routes from './routes';
 import App from './Components/App.jsx';
 

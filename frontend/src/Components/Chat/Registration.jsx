@@ -5,8 +5,8 @@ import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../../../hooks/useAuth';
-import routes from '../../../routes';
+import useAuth from '../../Hooks/useAuth';
+import routes from '../../routes';
 
 const LoginForm = () => {
   const { t } = useTranslation();
