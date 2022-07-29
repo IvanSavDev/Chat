@@ -18,7 +18,7 @@ import channelsReducer, {
 import messagesReducer, { addMessage } from './slices/messages-slice';
 import statusReducer from './slices/data-slice';
 import routes from './routes';
-import App from './components/App';
+import App from './components/App.jsx';
 
 const InitialState = async () => {
   const i18n = i18next.createInstance();
@@ -58,7 +58,9 @@ const InitialState = async () => {
 
   socket.on('removeChannel', ({ id }) => {
     const { channels } = store.getState();
-    const generalChannelId = channels.ids.find((idChannel) => channels.entities[idChannel].name === 'general');
+    const generalChannelId = channels.ids.find(
+      (idChannel) => channels.entities[idChannel].name === 'general',
+    );
     store.dispatch(removeChannel(id));
     store.dispatch(selectActiveChat(generalChannelId));
   });
