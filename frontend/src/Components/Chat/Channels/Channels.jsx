@@ -35,10 +35,7 @@ export default function Channels() {
     <>
       <div className="mb-2 d-flex">
         <span className="me-auto">{t('chat.channels')}</span>
-        <ChannelModal
-          isExistChannel={isExistChannel}
-          status={status}
-        ></ChannelModal>
+        <ChannelModal isExistChannel={isExistChannel} status={status} />
       </div>
       <div>
         {ids.map((id) => {
@@ -46,51 +43,49 @@ export default function Channels() {
           return (
             <div key={id} className="mb-3">
               {currentChannel.removable ? (
-                <>
-                  <Dropdown as={ButtonGroup} className="w-100">
-                    <Button
-                      variant={id === currentChannelId ? 'info' : 'secondary'}
-                      onClick={() => dispatch(selectActiveChat(id))}
-                      style={{
-                        textAlign: 'start',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                      }}
+                <Dropdown as={ButtonGroup} className="w-100">
+                  <Button
+                    variant={id === currentChannelId ? 'info' : 'secondary'}
+                    onClick={() => dispatch(selectActiveChat(id))}
+                    style={{
+                      textAlign: 'start',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <span className="me-1">#</span>
+                    {currentChannel.name}
+                  </Button>
+                  <Dropdown.Toggle
+                    split
+                    variant={id === currentChannelId ? 'info' : 'secondary'}
+                    id="dropdown-custom-2"
+                  />
+                  <Dropdown.Menu>
+                    <Dropdown.Item as="button" onClick={handleShowModalReset}>
+                      {t('chat.removeChannel')}
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      as="button"
+                      onClick={handleShowModalRename}
                     >
-                      <span className="me-1">#</span>
-                      {currentChannel.name}
-                    </Button>
-                    <Dropdown.Toggle
-                      split
-                      variant={id === currentChannelId ? 'info' : 'secondary'}
-                      id="dropdown-custom-2"
+                      {t('chat.renameChannel')}
+                    </Dropdown.Item>
+                    <DeleteModal
+                      handleClose={handleCloseModalReset}
+                      show={showModalReset}
+                      idChannel={id}
+                      status={status}
                     />
-                    <Dropdown.Menu>
-                      <Dropdown.Item as="button" onClick={handleShowModalReset}>
-                        {t('chat.removeChannel')}
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        as="button"
-                        onClick={handleShowModalRename}
-                      >
-                        {t('chat.renameChannel')}
-                      </Dropdown.Item>
-                      <DeleteModal
-                        handleClose={handleCloseModalReset}
-                        show={showModalReset}
-                        idChannel={id}
-                        status={status}
-                      ></DeleteModal>
-                      <RenameModal
-                        handleClose={handleCloseModalRename}
-                        show={showModalRename}
-                        idChannel={id}
-                        isExistChannel={isExistChannel}
-                        status={status}
-                      ></RenameModal>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </>
+                    <RenameModal
+                      handleClose={handleCloseModalRename}
+                      show={showModalRename}
+                      idChannel={id}
+                      isExistChannel={isExistChannel}
+                      status={status}
+                    />
+                  </Dropdown.Menu>
+                </Dropdown>
               ) : (
                 <Button
                   variant={id === currentChannelId ? 'info' : 'secondary'}

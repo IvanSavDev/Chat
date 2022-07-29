@@ -9,28 +9,28 @@ import Registration from '../Components/Chat/Registration';
 import AuthRegistration from '../hoc/AuthRegistration';
 
 const Main = () => (
-    <Container className="h-100 m-3 overflow-hidden align-self-center">
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <AuthRequire>
-              <Chat></Chat>
-            </AuthRequire>
-          }
-        ></Route>
-        <Route path="/login" element={<Authorization />} />
-        <Route
-          path="/signup"
-          element={
-            <AuthRegistration>
-              <Registration />
-            </AuthRegistration>
-          }
-        />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </Container>
+  <Container className="h-100 m-3 overflow-hidden align-self-center">
+    <Routes>
+      <Route
+        path="/"
+        element={(
+          <AuthRequire>
+            <Chat />
+          </AuthRequire>
+        )}
+      />
+      <Route path="/login" element={<Authorization />} />
+      <Route
+        path="/signup"
+        element={(
+          <AuthRegistration>
+            <Registration />
+          </AuthRegistration>
+        )}
+      />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  </Container>
 );
 
 export default Main;

@@ -21,37 +21,32 @@ const DeleteModal = ({
   };
 
   return (
-    <>
-      <Modal show={show} onHide={() => status === 'pending' || handleClose()}>
-        <Modal.Header>
-          <Modal.Title>{t('modal.deleteChannel')}</Modal.Title>
-          <CloseButton
-            onClick={handleClose}
-            disabled={status === 'pending'}
-          ></CloseButton>
-        </Modal.Header>
-        <Modal.Body>
-          <p>{t('modal.deleteBody')}</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={handleClose}
-            disabled={status === 'pending'}
-          >
-            {t('modal.close')}
-          </Button>
-          <Button
-            type="submit"
-            variant="danger"
-            disabled={status === 'pending'}
-            onClick={removeChannel}
-          >
-            {t('modal.delete')}
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    <Modal show={show} onHide={() => status === 'pending' || handleClose()}>
+      <Modal.Header>
+        <Modal.Title>{t('modal.deleteChannel')}</Modal.Title>
+        <CloseButton onClick={handleClose} disabled={status === 'pending'} />
+      </Modal.Header>
+      <Modal.Body>
+        <p>{t('modal.deleteBody')}</p>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          variant="secondary"
+          onClick={handleClose}
+          disabled={status === 'pending'}
+        >
+          {t('modal.close')}
+        </Button>
+        <Button
+          type="submit"
+          variant="danger"
+          disabled={status === 'pending'}
+          onClick={removeChannel}
+        >
+          {t('modal.delete')}
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

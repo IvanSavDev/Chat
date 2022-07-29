@@ -45,7 +45,7 @@ export default function Messages() {
           return (
             <div key={idMessage} className="mb-2">
               <span>
-                <strong>{currentMessage.username}: </strong>
+                <strong>{`${currentMessage.username}: `}</strong>
               </span>
               <span>{currentMessage.body}</span>
             </div>

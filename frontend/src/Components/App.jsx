@@ -6,13 +6,13 @@ import Main from '../Layout/Main';
 import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => (
-    <AuthProvider>
-      <ToastContainer />
-      <div className="h-100 d-flex flex-column">
-        <Header />
-        <Main />
-      </div>
-    </AuthProvider>
+  <AuthProvider>
+    <ToastContainer />
+    <div className="h-100 d-flex flex-column">
+      <Header />
+      <Main />
+    </div>
+  </AuthProvider>
 );
 
 export default App;

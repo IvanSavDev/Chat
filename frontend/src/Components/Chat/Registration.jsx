@@ -85,7 +85,8 @@ const LoginForm = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
                 isInvalid={
-                  (formik.touched.username && formik.errors.username) || authErrors}
+                  (formik.touched.username && formik.errors.username) || authErrors
+                }
               />
               {authErrors ? (
                 ''
@@ -107,7 +108,8 @@ const LoginForm = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
                 isInvalid={
-                  (formik.touched.password && formik.errors.password) || authErrors}
+                  (formik.touched.password && formik.errors.password) || authErrors
+                }
               />
               {authErrors ? (
                 ''
@@ -130,7 +132,8 @@ const LoginForm = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.confirmPassword}
                 isInvalid={
-                  (formik.touched.confirmPassword && formik.errors.confirmPassword) || authErrors}
+                  (formik.touched.confirmPassword && formik.errors.confirmPassword) || authErrors
+                }
               />
               {authErrors ? (
                 <Form.Control.Feedback type="invalid">

@@ -44,52 +44,50 @@ const RenameModal = ({
   };
 
   return (
-    <>
-      <Modal show={show} onHide={() => status === 'pending' || closeModal()}>
-        <Modal.Header>
-          <Modal.Title>{t('modal.renameChannel')}</Modal.Title>
-          <CloseButton
-            onClick={closeModal}
-            disabled={status === 'pending'}
-          ></CloseButton>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={renameChannel}>
-            <Form.Group className="mb-3">
-              <Form.Label>{t('modal.newName')}</Form.Label>
-              <Form.Control
-                value={channelName}
-                type="text"
-                autoFocus
-                name="channel"
-                onChange={(event) => setChannelName(event.target.value)}
-                isInvalid={existName}
-              />
-              <Form.Control.Feedback type="invalid">
-                {t('modal.channelExist')}
-              </Form.Control.Feedback>
-            </Form.Group>
-            <div className="d-flex justify-content-end">
-              <Button
-                variant="secondary"
-                onClick={closeModal}
-                className="me-2"
-                disabled={status === 'pending'}
-              >
-                {t('modal.close')}
-              </Button>
-              <Button
-                type="submit"
-                variant="primary"
-                disabled={status === 'pending'}
-              >
-                {t('modal.rename')}
-              </Button>
-            </div>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </>
+    <Modal show={show} onHide={() => status === 'pending' || closeModal()}>
+      <Modal.Header>
+        <Modal.Title>{t('modal.renameChannel')}</Modal.Title>
+        <CloseButton
+          onClick={closeModal}
+          disabled={status === 'pending'}
+        />
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={renameChannel}>
+          <Form.Group className="mb-3">
+            <Form.Label>{t('modal.newName')}</Form.Label>
+            <Form.Control
+              value={channelName}
+              type="text"
+              autoFocus
+              name="channel"
+              onChange={(event) => setChannelName(event.target.value)}
+              isInvalid={existName}
+            />
+            <Form.Control.Feedback type="invalid">
+              {t('modal.channelExist')}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <div className="d-flex justify-content-end">
+            <Button
+              variant="secondary"
+              onClick={closeModal}
+              className="me-2"
+              disabled={status === 'pending'}
+            >
+              {t('modal.close')}
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={status === 'pending'}
+            >
+              {t('modal.rename')}
+            </Button>
+          </div>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 };
 

@@ -60,7 +60,7 @@ const ChannelModal = ({ isExistChannel }) => {
           <CloseButton
             onClick={closeModal}
             disabled={status === 'pending'}
-          ></CloseButton>
+          />
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={createChannel}>
