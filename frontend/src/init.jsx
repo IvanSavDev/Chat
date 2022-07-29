@@ -18,7 +18,7 @@ import channelsReducer, {
 import messagesReducer, { addMessage } from './slices/messages-slice';
 import statusReducer from './slices/data-slice';
 import routes from './routes';
-import App from './components/App.jsx';
+import App from './Components/App.jsx';
 
 const InitialState = async () => {
   const i18n = i18next.createInstance();

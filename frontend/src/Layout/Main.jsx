@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Route, Routes } from 'react-router-dom';
-import Authorization from '../components/Chat/Authorization';
-import NotFoundPage from '../components/Chat/NotFoundPage';
+import Authorization from '../Components/Chat/Authorization';
+import NotFoundPage from '../Components/Chat/NotFoundPage';
 import AuthRequire from '../hoc/AuthRequire';
-import Chat from '../components/Chat/Chat';
-import Registration from '../components/Chat/Registration/Registration';
+import Chat from '../Components/Chat/Chat';
+import Registration from '../Components/Chat/Registration/Registration';
 import AuthRegistration from '../hoc/AuthRegistration';
 
 const Main = () => (
