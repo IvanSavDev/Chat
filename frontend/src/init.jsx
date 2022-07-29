@@ -14,9 +14,9 @@ import channelsReducer, {
   renameChannel,
   removeChannel,
   selectActiveChat,
-} from './Slices/channels-slice';
-import messagesReducer, { addMessage } from './Slices/messages-slice';
-import statusReducer from './Slices/data-slice';
+} from './slices/channels-slice';
+import messagesReducer, { addMessage } from './slices/messages-slice';
+import statusReducer from './slices/data-slice';
 import routes from './routes';
 import App from './Components/App.jsx';
 

@@ -3,7 +3,7 @@ import { CloseButton, Button, Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { deleteChannel } from '../../../../Slices/channels-slice';
+import { deleteChannel } from '../../../../slices/channels-slice';
 
 const DeleteModal = ({
   show, handleClose, idChannel, status,

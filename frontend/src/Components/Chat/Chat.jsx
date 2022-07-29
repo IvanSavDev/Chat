@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import Messages from './Messages/Messages';
 import Channels from './Channels/Channels';
-import { getDataChat } from '../../Slices/data-slice';
+import { getDataChat } from '../../slices/data-slice';
 
 export default function Chat() {
   const { t } = useTranslation();

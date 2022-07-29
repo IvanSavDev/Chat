@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { CloseButton } from 'react-bootstrap';
-import { emitChannel } from '../../../../Slices/channels-slice';
+import { emitChannel } from '../../../../slices/channels-slice';
 
 const ChannelModal = ({ isExistChannel }) => {
   const { t } = useTranslation();

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { selectActiveChat } from '../../../Slices/channels-slice';
+import { selectActiveChat } from '../../../slices/channels-slice';
 import ChannelModal from './Modals/CreateModal';
 import DeleteModal from './Modals/DeleteModal';
 import RenameModal from './Modals/RenameModal';
