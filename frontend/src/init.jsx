@@ -27,7 +27,6 @@ const InitialState = async () => {
   leoProfanity.add(ruDict);
 
   await i18n.use(initReactI18next).init({
-    debug: true,
     fallbackLng: 'ru',
     interpolation: {
       escapeValue: false,

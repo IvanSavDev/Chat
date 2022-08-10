@@ -11,7 +11,6 @@ export default function Chat() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { status } = useSelector((state) => state.statusAuthorization);
-  console.log('render chat');
 
   useEffect(() => {
     dispatch(getDataChat())

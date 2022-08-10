@@ -55,7 +55,6 @@ const LoginForm = () => {
         localStorage.setItem('userId', JSON.stringify({ ...request.data }));
         navigate(fromPath);
       } catch (error) {
-        console.log(error);
         if (error.response.status === 409) {
           setAuthError(t('forms.registration.existUser'));
         } else {

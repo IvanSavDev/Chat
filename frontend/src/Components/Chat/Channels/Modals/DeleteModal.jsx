@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { deleteChannel } from '../../../../slices/channels-slice';
 
-const DeleteModal = ({
+const DeleteChannel = ({
   show, handleClose, idChannel, status,
 }) => {
   const { t } = useTranslation();
@@ -50,4 +50,4 @@ const DeleteModal = ({
   );
 };
 
-export default DeleteModal;
+export default DeleteChannel;

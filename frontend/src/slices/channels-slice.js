@@ -14,19 +14,19 @@ const initialState = {
 
 export const emitChannel = createAsyncThunk(
   '@@channel/create-channel',
-  async (nameChannel, { extra: { socket } }) => {
+  async ({ name }, { extra: { socket } }) => {
     socket.emit('newChannel', {
-      name: nameChannel,
+      name,
     });
   },
 );
 
 export const sendRenameChannel = createAsyncThunk(
   '@@channel/rename-channel',
-  async ({ nameChannel, idChannel }, { extra: { socket } }) => {
+  async ({ name, id }, { extra: { socket } }) => {
     socket.emit('renameChannel', {
-      name: nameChannel,
-      id: idChannel,
+      name,
+      id,
     });
   },
 );
