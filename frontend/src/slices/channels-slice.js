@@ -45,7 +45,7 @@ const channelsSlice = createSlice({
     addChannel: (state, action) => {
       const { id } = action.payload;
       const idsState = state.ids;
-      state.entities[id] = { ...action.payload, messages: [] };
+      state.entities[id] = { ...action.payload };
       if (!idsState.includes(id)) {
         state.ids.push(id);
       }

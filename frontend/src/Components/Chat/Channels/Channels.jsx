@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { selectActiveChat, sendRenameChannel, emitChannel } from '../../../slices/channels-slice';
+import {
+  selectActiveChat,
+  sendRenameChannel,
+  emitChannel,
+} from '../../../slices/channels-slice';
 import DeleteChannel from './Modals/DeleteModal';
 import GeneralModal from './Modals/Modal';
 
@@ -84,18 +88,15 @@ export default function Channels() {
               {currentChannel.removable ? (
                 <Dropdown as={ButtonGroup} className="w-100">
                   <Button
+                    className="text-start text-truncate w-75"
                     variant={id === currentChannelId ? 'info' : 'secondary'}
                     onClick={() => dispatch(selectActiveChat(id))}
-                    style={{
-                      textAlign: 'start',
-                      textOverflow: 'ellipsis',
-                      overflow: 'hidden',
-                    }}
                   >
                     <span className="me-1">#</span>
                     {currentChannel.name}
                   </Button>
                   <Dropdown.Toggle
+                    className="w-25"
                     split
                     variant={id === currentChannelId ? 'info' : 'secondary'}
                     id="dropdown-custom-2"
