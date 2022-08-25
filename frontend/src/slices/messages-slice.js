@@ -1,8 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
-import { getDataChat } from './data-slice';
-import { removeChannel } from './channels-slice';
+import { removeChannel, getDataChat } from './channels-slice';
 
 const initialState = {
   entities: {},

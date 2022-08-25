@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 
-import { getDataChat } from './data-slice';
+// import { getDataChat } from './data-slice';
 
 const initialState = {
   entities: {},
@@ -11,6 +11,20 @@ const initialState = {
   status: 'fulfiled',
   error: null,
 };
+
+export const getDataChat = createAsyncThunk(
+  '@@chat/get-data',
+  async (_, { extra: { axios, routes } }) => {
+    const userId = localStorage.getItem('userId');
+    const { token } = JSON.parse(userId);
+    const request = await axios.get(routes.usersPath(), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return request.data;
+  },
+);
 
 export const emitChannel = createAsyncThunk(
   '@@channel/create-channel',
@@ -84,7 +98,7 @@ const channelsSlice = createSlice({
       .addMatcher(
         (action) => action.type.endsWith('/rejected'),
         (state) => {
-          state.status = 'pending';
+          state.status = 'rejected';
         },
       )
       .addMatcher(

@@ -16,7 +16,6 @@ import channelsReducer, {
   selectActiveChat,
 } from './slices/channels-slice';
 import messagesReducer, { addMessage } from './slices/messages-slice';
-import statusReducer from './slices/data-slice';
 import routes from './routes';
 import App from './Components/App';
 
@@ -42,7 +41,6 @@ const InitialState = async () => {
     reducer: {
       channels: channelsReducer,
       messages: messagesReducer,
-      statusAuthorization: statusReducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
       thunk: {

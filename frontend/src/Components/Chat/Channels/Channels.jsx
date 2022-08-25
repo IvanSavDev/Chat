@@ -8,7 +8,7 @@ import {
   emitChannel,
 } from '../../../slices/channels-slice';
 import DeleteChannel from './Modals/DeleteModal';
-import GeneralModal from './Modals/Modal';
+import GeneralModal from './Modals/GeneralModal';
 
 export default function Channels() {
   const { t } = useTranslation();

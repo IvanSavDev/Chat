@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Row } from 'react-bootstrap';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -65,7 +65,7 @@ const LoginForm = () => {
   });
 
   return (
-    <div className="row justify-content-center align-content-center h-100">
+    <Row className="justify-content-center align-content-center h-100 w-100">
       <div className="card col-10 col-md-7 col-lg-6 col-xxl-5">
         <h2 className="text-center p-4">{t('forms.registration.title')}</h2>
         <div className="card-body mb-4 row justify-content-center">
@@ -150,7 +150,7 @@ const LoginForm = () => {
           </Form>
         </div>
       </div>
-    </div>
+    </Row>
   );
 };
 

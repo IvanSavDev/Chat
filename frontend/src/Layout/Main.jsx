@@ -9,7 +9,7 @@ import Registration from '../Components/Chat/Registration';
 import AuthRegistration from '../hoc/AuthRegistration';
 
 const Main = () => (
-  <Container className="h-100 m-3 overflow-hidden align-self-center">
+  <Container className="h-100 m-3 overflow-hidden align-self-center d-flex justify-content-center ">
     <Routes>
       <Route
         path="/"

@@ -23,7 +23,7 @@ const GeneralModal = ({
     setChannelName('');
   };
 
-  const createChannel = async (event) => {
+  const changeleChannelHandler = async (event) => {
     try {
       event.preventDefault();
       const nameChannel = event.target.channel.value;
@@ -54,7 +54,7 @@ const GeneralModal = ({
         />
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={createChannel}>
+        <Form onSubmit={changeleChannelHandler}>
           <Form.Group className="mb-3">
             <Form.Label>{t(texts.title)}</Form.Label>
             <Form.Control
