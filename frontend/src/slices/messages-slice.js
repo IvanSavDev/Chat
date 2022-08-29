@@ -6,19 +6,25 @@ import { removeChannel, getDataChat } from './channels-slice';
 const initialState = {
   entities: {},
   ids: [],
+  status: 'fulfilled',
 };
 
 export const emitMessage = createAsyncThunk(
   '@@message/send-message',
-  async (message, { getState, extra: { socket } }) => {
-    const channelId = getState().channels.currentChannelId;
-    const dataFromLocalStorage = localStorage.getItem('userId');
-    const { username } = JSON.parse(dataFromLocalStorage);
-    socket.emit('newMessage', {
-      body: message,
-      username,
-      channelId,
-    });
+  async (message, { getState, extra: { socket }, rejectWithValue }) => {
+    try {
+      const channelId = getState().channels.currentChannelId;
+      const dataFromLocalStorage = localStorage.getItem('userId');
+      const { username } = JSON.parse(dataFromLocalStorage);
+      socket.emit('newMessage', {
+        body: message,
+        username,
+        channelId,
+      });
+      return null;
+    } catch {
+      return rejectWithValue('emit message error');
+    }
   },
 );
 
@@ -56,6 +62,15 @@ const messagesSlice = createSlice({
           }
         });
         state.ids = Object.keys(currentEntities);
+      })
+      .addCase(emitMessage.pending, (state) => {
+        state.status = 'pending';
+      })
+      .addCase(emitMessage.rejected, (state) => {
+        state.status = 'rejected';
+      })
+      .addCase(emitMessage.fulfilled, (state) => {
+        state.status = 'fulfilled';
       });
   },
 });

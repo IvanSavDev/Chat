@@ -12,22 +12,23 @@ import { getDataChat } from '../../slices/channels-slice';
 export default function Chat() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  // const { status } = useSelector((state) => state.statusAuthorization);
   const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
-    dispatch(getDataChat())
-      .unwrap()
-      .then(() => {
+    const firstLoad = async () => {
+      try {
+        await dispatch(getDataChat()).unwrap();
         setFetching(false);
-      })
-      .catch((error) => {
-        if (!(error.name === 'AxiosError')) {
-          toast.error(t('unknownError'));
+      } catch (error) {
+        if (error === 401) {
+          toast.error(t('authorisationError'));
         } else {
           toast.error(t('networkError'));
         }
-      });
+      }
+    };
+
+    firstLoad();
   }, [dispatch, t]);
 
   return (
@@ -47,8 +48,3 @@ export default function Chat() {
       )
   );
 }
-
-// {status === 'pending' && <h2>{t('loading')}</h2>}
-// {status === 'rejected' && <h2>:(</h2>}
-// {status === 'fulfilled' && (
-//  )}

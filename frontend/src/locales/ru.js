@@ -50,6 +50,7 @@ const ruLocal = {
         delete: 'Удалить',
         create: 'Создать',
         channelExist: 'Такой канал уже существует',
+        minCountSymbols: 'Нужно указать минимум 1 символ',
       },
       loading: 'Загрузка...',
       notify: {
@@ -60,6 +61,10 @@ const ruLocal = {
       },
       networkError: 'Ошибка соединения',
       unknownError: 'Неизвестная ошибка',
+      authorisationError: 'Ошибка авторизации',
+      messageSendError: 'Ошибка отправки сообщения',
+      createChannelError: 'Ошибка создания канала',
+      renameChannelError: 'Ошибка переименования канала',
     },
   },
 };

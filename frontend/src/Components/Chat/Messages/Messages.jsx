@@ -3,11 +3,12 @@ import { Form, Button, InputGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
+import { toast } from 'react-toastify';
 import { emitMessage } from '../../../slices/messages-slice';
 
 export default function Messages() {
   const { t } = useTranslation();
-  const { ids, entities } = useSelector((state) => state.messages);
+  const { ids, entities, status } = useSelector((state) => state.messages);
   const { currentChannelId } = useSelector((state) => state.channels);
   const ref = useRef();
   const [message, setMessage] = useState('');
@@ -21,7 +22,7 @@ export default function Messages() {
       setMessage('');
       ref.current.focus();
     } catch {
-      console.log('ooops');
+      toast.error(t('messageSendError'));
     }
   };
 
@@ -33,9 +34,16 @@ export default function Messages() {
     setMessage(event.target.value);
   };
 
+  const countMessages = ids.reduce((acc, id) => (
+    entities[id].channelId === currentChannelId ? acc + 1 : acc
+  ), 0);
+
   return (
     <div className="d-flex flex-column h-100">
-      <h3>{t('chat.messages')}</h3>
+      <div>
+        <h3>{t('chat.messages')}</h3>
+        <span>{`Количество сообщений: ${countMessages}`}</span>
+      </div>
       <div className="overflow-auto mb-2 p-3">
         {ids.map((idMessage) => {
           const currentMessage = entities[idMessage];
@@ -61,7 +69,7 @@ export default function Messages() {
             placeholder={t('chat.placeholderMessages')}
             value={message}
           />
-          <Button variant="info" type="submit" disabled={!message}>
+          <Button variant="info" type="submit" disabled={!message || status === 'pending'}>
             {t('chat.send')}
           </Button>
         </InputGroup>

@@ -1,69 +1,110 @@
-import React, { useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import {
   CloseButton, Button, Modal, Form,
 } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { useFormik } from 'formik';
 
 const GeneralModal = ({
-  isExistChannel,
-  handleClose,
-  show,
-  status,
+  сhannelExist,
+  closeModal,
+  showModal,
   dispatchAction,
   texts,
 }) => {
   const { t } = useTranslation();
-  const [channelName, setChannelName] = useState('');
-  const [existName, setExistName] = useState(false);
+  // const [channelName, setChannelName] = useState('');
+  const [isExistChannelName, setIsExistChannelName] = useState(false);
+  const { status } = useSelector((state) => state.channels);
+  const ref = useRef(null);
 
-  const closeModal = () => {
-    setExistName(false);
-    handleClose();
-    setChannelName('');
-  };
+  //   const setChannelNameHandler = (event) => {
+  //   setChannelName(event.target.value);
+  // };
 
-  const changeleChannelHandler = async (event) => {
-    try {
-      event.preventDefault();
-      const nameChannel = event.target.channel.value;
-      const existChannel = isExistChannel(nameChannel);
-      if (!existChannel) {
-        await dispatchAction(nameChannel);
-        closeModal();
-        setChannelName('');
-        toast.success(t(texts.success));
+  const schema = yup.object().shape({
+    channelName: yup.string().required('efwef'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      channelName: '',
+    },
+    validationSchema: schema,
+    onSubmit: async ({ channelName }) => {
+      try {
+        const isExistChannel = сhannelExist(channelName);
+        if (!isExistChannel) {
+          await dispatchAction(channelName);
+          setIsExistChannelName(false);
+          closeModal();
+          // setChannelName('');
+          toast.success(t(texts.success));
+        }
+        setIsExistChannelName(isExistChannel);
+      } catch (error) {
+        console.log(error);
+        toast.error(t(texts.error));
       }
-      setExistName(existChannel);
-    } catch {
-      toast.error(texts.error);
-    }
+    },
+  });
+
+  const closeModalHandler = () => {
+    setIsExistChannelName(false);
+    closeModal();
+    formik.handleChange('');
   };
 
-  const handleChannel = (event) => {
-    setChannelName(event.target.value);
-  };
+  useEffect(() => {
+    if (ref.current) {
+      console.log(ref.current);
+      ref.current.focus();
+    }
+  }, [showModal]);
+
+  // const changeChannelHandler = async (event) => {
+  //   try {
+  //     event.preventDefault();
+  //     const enteredChannelName = event.target.channel.value;
+  //     const isExistChannel = сhannelExist(enteredChannelName);
+  //     if (!isExistChannel) {
+  //       await dispatchAction(enteredChannelName);
+  //       closeModalHandler();
+  //       setChannelName('');
+  //       toast.success(t(texts.success));
+  //     }
+  //     setIsExistChannelName(isExistChannel);
+  //   } catch {
+  //     toast.error(t(texts.error));
+  //   }
+  // };
 
   return (
-    <Modal show={show} onHide={() => status === 'pending' || closeModal()}>
+    <Modal show={showModal} onHide={() => status === 'pending' || closeModalHandler()}>
       <Modal.Header>
         <Modal.Title>{t(texts.header)}</Modal.Title>
         <CloseButton
-          onClick={closeModal}
+          onClick={closeModalHandler}
           disabled={status === 'pending'}
         />
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={changeleChannelHandler}>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>{t(texts.title)}</Form.Label>
             <Form.Control
-              value={channelName}
+              id="channelName"
+              className={t(texts.title)}
+              value={formik.values.channelName}
               type="text"
-              autoFocus
-              name="channel"
-              onChange={handleChannel}
-              isInvalid={existName}
+              name="channelName"
+              ref={ref}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              isInvalid={isExistChannelName || (formik.touched.username && formik.errors.username)}
             />
             <Form.Control.Feedback type="invalid">
               {t(texts.channelExist)}
@@ -72,7 +113,7 @@ const GeneralModal = ({
           <div className="d-flex justify-content-end">
             <Button
               variant="secondary"
-              onClick={closeModal}
+              onClick={closeModalHandler}
               className="me-2"
               disabled={status === 'pending'}
             >

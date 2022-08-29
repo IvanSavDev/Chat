@@ -2,53 +2,69 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 
-// import { getDataChat } from './data-slice';
-
 const initialState = {
   entities: {},
   ids: [],
   currentChannelId: null,
   status: 'fulfiled',
-  error: null,
 };
 
 export const getDataChat = createAsyncThunk(
   '@@chat/get-data',
-  async (_, { extra: { axios, routes } }) => {
-    const userId = localStorage.getItem('userId');
-    const { token } = JSON.parse(userId);
-    const request = await axios.get(routes.usersPath(), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return request.data;
+  async (_, { extra: { axios, routes }, rejectWithValue }) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const { token } = JSON.parse(userId);
+      const request = await axios.get(routes.usersPath(), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return request.data;
+    } catch (error) {
+      return rejectWithValue(error.response.status);
+    }
   },
 );
 
 export const emitChannel = createAsyncThunk(
   '@@channel/create-channel',
-  async ({ name }, { extra: { socket } }) => {
-    socket.emit('newChannel', {
-      name,
-    });
+  async ({ name }, { extra: { socket }, rejectWithValue }) => {
+    try {
+      socket.emit('newChannel', {
+        name,
+      });
+      return null;
+    } catch {
+      return rejectWithValue('emit channel error');
+    }
   },
 );
 
 export const sendRenameChannel = createAsyncThunk(
   '@@channel/rename-channel',
-  async ({ name, id }, { extra: { socket } }) => {
-    socket.emit('renameChannel', {
-      name,
-      id,
-    });
+  async ({ name, id }, { extra: { socket }, rejectWithValue }) => {
+    try {
+      socket.emit('renameChannel', {
+        name,
+        id,
+      });
+      return null;
+    } catch {
+      return rejectWithValue('send rename channel');
+    }
   },
 );
 
 export const deleteChannel = createAsyncThunk(
   '@@channel/delete-channel',
-  async (idChannel, { extra: { socket } }) => {
-    socket.emit('removeChannel', { id: idChannel });
+  async (idChannel, { extra: { socket }, rejectWithValue }) => {
+    try {
+      await socket.emit('removeChannel', { id: idChannel });
+      return null;
+    } catch {
+      return rejectWithValue('delete error');
+    }
   },
 );
 
@@ -90,19 +106,19 @@ const channelsSlice = createSlice({
         state.currentChannelId = currentChannelId;
       })
       .addMatcher(
-        (action) => action.type.endsWith('/pending'),
+        (action) => action.type.endsWith('channel/pending'),
         (state) => {
           state.status = 'pending';
         },
       )
       .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
+        (action) => action.type.endsWith('channel/rejected'),
         (state) => {
           state.status = 'rejected';
         },
       )
       .addMatcher(
-        (action) => action.type.endsWith('/fulfilled'),
+        (action) => action.type.endsWith('channel/fulfilled'),
         (state) => {
           state.status = 'fulfilled';
         },
