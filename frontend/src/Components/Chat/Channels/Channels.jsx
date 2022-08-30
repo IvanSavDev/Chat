@@ -1,30 +1,41 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { selectActiveChat } from '../../../slices/channels-slice';
-import DeleteChannel from './DeleteChannel';
-import CreateChannel from './CreateChannel';
-import RenameChannel from './RenameChannel';
+// import DeleteChannel from './DeleteChannel';
+// import CreateChannel from './CreateChannel';
+// import RenameChannel from './RenameChannel';
+import { openModal } from '../../../slices/modals-slice';
+import Modals from './Modals/Modal';
 
 export default function Channels() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const {
     ids, entities, currentChannelId,
   } = useSelector(
     (state) => state.channels,
   );
-  // const { type } = useSelector((state) => state.modals);
+  const { type } = useSelector((state) => state.modals);
 
-  const сhannelExist = (nameChannel) => {
-    const namesChannels = ids.map((id) => entities[id].name);
-    const isExistName = namesChannels.includes(nameChannel);
-    return isExistName;
+  const openModalHandler = (typeModal, idChannel = null) => () => {
+    dispatch(openModal({ id: idChannel, type: typeModal }));
   };
 
   return (
     <div>
-      {/* {type && <Modal />} */}
-      <CreateChannel сhannelExist={сhannelExist} />
+      {type && <Modals />}
+      <div className="mb-2 d-flex">
+        <span className="me-auto">{t('chat.channels')}</span>
+        <Button
+          variant="info"
+          className="p-0 w-25 h-25"
+          onClick={openModalHandler('createModal')}
+        >
+          +
+        </Button>
+      </div>
       {ids.map((id) => {
         const currentChannel = entities[id];
         return (
@@ -46,8 +57,12 @@ export default function Channels() {
                   id="dropdown-custom-2"
                 />
                 <Dropdown.Menu>
-                  <DeleteChannel id={id} />
-                  <RenameChannel id={id} сhannelExist={сhannelExist} />
+                  <Dropdown.Item as="button" onClick={openModalHandler('deleteModal', id)}>
+                    {t('chat.removeChannel')}
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={openModalHandler('renameModal', id)}>
+                    {t('chat.renameChannel')}
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             ) : (
