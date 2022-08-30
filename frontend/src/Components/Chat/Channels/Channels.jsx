@@ -3,9 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { selectActiveChat } from '../../../slices/channels-slice';
-// import DeleteChannel from './DeleteChannel';
-// import CreateChannel from './CreateChannel';
-// import RenameChannel from './RenameChannel';
 import { openModal } from '../../../slices/modals-slice';
 import Modals from './Modals/Modal';
 
