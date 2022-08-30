@@ -1,3 +1,4 @@
+/* eslint-disable no-new */
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
@@ -31,6 +32,10 @@ export const emitChannel = createAsyncThunk(
   '@@channel/create-channel',
   async ({ name }, { extra: { socket }, rejectWithValue }) => {
     try {
+      const promise = new Promise((resolve) => {
+        setTimeout(() => resolve(3), 3000);
+      });
+      await promise;
       socket.emit('newChannel', {
         name,
       });
@@ -45,6 +50,10 @@ export const sendRenameChannel = createAsyncThunk(
   '@@channel/rename-channel',
   async ({ name, id }, { extra: { socket }, rejectWithValue }) => {
     try {
+      const promise = new Promise((resolve) => {
+        setTimeout(() => resolve(3), 3000);
+      });
+      await promise;
       socket.emit('renameChannel', {
         name,
         id,
@@ -60,6 +69,10 @@ export const deleteChannel = createAsyncThunk(
   '@@channel/delete-channel',
   async (idChannel, { extra: { socket }, rejectWithValue }) => {
     try {
+      const promise = new Promise((resolve) => {
+        setTimeout(() => resolve(3), 3000);
+      });
+      await promise;
       await socket.emit('removeChannel', { id: idChannel });
       return null;
     } catch {
@@ -81,6 +94,7 @@ const channelsSlice = createSlice({
       }
     },
     renameChannel: (state, action) => {
+      console.log(action);
       const { id } = action.payload;
       state.entities[id] = { ...state.entities[id], ...action.payload };
     },
@@ -96,12 +110,12 @@ const channelsSlice = createSlice({
     builder
       .addCase(getDataChat.fulfilled, (state, { payload }) => {
         const { channels, currentChannelId } = payload;
-        const idChannels = channels.map((channel) => channel.id);
-        if (!isEqual(state.ids, idChannels)) {
-          state.ids = idChannels;
+        const idsChannels = channels.map((channel) => channel.id);
+        if (!isEqual(state.ids, idsChannels)) {
+          state.ids = idsChannels;
         }
         channels.forEach((channel) => {
-          state.entities[channel.id] = { ...channel, messages: [] };
+          state.entities[channel.id] = { ...channel };
         });
         state.currentChannelId = currentChannelId;
       })

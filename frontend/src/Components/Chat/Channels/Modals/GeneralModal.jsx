@@ -65,23 +65,6 @@ const GeneralModal = ({
     }
   }, [showModal]);
 
-  // const changeChannelHandler = async (event) => {
-  //   try {
-  //     event.preventDefault();
-  //     const enteredChannelName = event.target.channel.value;
-  //     const isExistChannel = сhannelExist(enteredChannelName);
-  //     if (!isExistChannel) {
-  //       await dispatchAction(enteredChannelName);
-  //       closeModalHandler();
-  //       setChannelName('');
-  //       toast.success(t(texts.success));
-  //     }
-  //     setIsExistChannelName(isExistChannel);
-  //   } catch {
-  //     toast.error(t(texts.error));
-  //   }
-  // };
-
   return (
     <Modal show={showModal} onHide={() => status === 'pending' || closeModalHandler()}>
       <Modal.Header>
