@@ -27,7 +27,6 @@ export default function Chat() {
         }
       }
     };
-
     firstLoad();
   }, [dispatch, t]);
 
@@ -39,10 +38,9 @@ export default function Chat() {
             <Col xs={4} md={3} lg={2} className="border bg-light py-4 h-100">
               <Channels />
             </Col>
-            <Col className="border bg-light py-4 h-100">
+            <Col className="bg-light h-100 p-0">
               <Messages />
             </Col>
-
           </Row>
         </Tab.Container>
       )

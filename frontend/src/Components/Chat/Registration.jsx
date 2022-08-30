@@ -16,7 +16,7 @@ const LoginForm = () => {
   const { logIn } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const inputEl = useRef();
+  const inputElement = useRef(null);
   const fromPath = location.state?.from?.pathname || '/';
 
   const schema = yup.object().shape({
@@ -36,7 +36,7 @@ const LoginForm = () => {
   });
 
   useEffect(() => {
-    inputEl.current.focus();
+    inputElement.current.focus();
   }, []);
 
   const formik = useFormik({
@@ -67,7 +67,7 @@ const LoginForm = () => {
   });
 
   return (
-    <Row className="justify-content-center align-content-center h-100 w-100">
+    <Row className="h-100 w-100 justify-content-center align-content-center">
       <Card className="col-10 col-md-7 col-lg-6 col-xxl-5">
         <h2 className="text-center p-4">{t('forms.registration.title')}</h2>
         <Card.Body className="mb-4 row justify-content-center">
@@ -81,7 +81,7 @@ const LoginForm = () => {
                 name="username"
                 type="text"
                 placeholder="..."
-                ref={inputEl}
+                ref={inputElement}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.username}

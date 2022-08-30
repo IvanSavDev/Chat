@@ -1,19 +1,21 @@
 import React from 'react';
-import { CloseButton, Button, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  CloseButton, Button, Modal,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { deleteChannel } from '../../../../slices/channels-slice';
 
-const DeleteModal = ({
-  showModal, closeModal, idChannel,
-}) => {
+const DeleteChannelModal = ({ closeModal }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { status } = useSelector((state) => state.channels);
+  const { extra } = useSelector((state) => state.modals);
+
   const removeChannel = async () => {
     try {
-      await dispatch(deleteChannel(idChannel)).unwrap();
+      await dispatch(deleteChannel(extra)).unwrap();
       closeModal();
       toast.success(t('notify.deleteChannel'));
     } catch {
@@ -22,7 +24,7 @@ const DeleteModal = ({
   };
 
   return (
-    <Modal show={showModal} onHide={() => status === 'pending' || closeModal()}>
+    <Modal show onHide={() => status === 'pending' || closeModal()}>
       <Modal.Header>
         <Modal.Title>{t('modal.deleteChannel')}</Modal.Title>
         <CloseButton onClick={closeModal} disabled={status === 'pending'} />
@@ -51,4 +53,4 @@ const DeleteModal = ({
   );
 };
 
-export default DeleteModal;
+export default DeleteChannelModal;

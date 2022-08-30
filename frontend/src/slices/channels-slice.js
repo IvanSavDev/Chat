@@ -1,4 +1,3 @@
-/* eslint-disable no-new */
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
@@ -28,20 +27,14 @@ export const getDataChat = createAsyncThunk(
   },
 );
 
-export const emitChannel = createAsyncThunk(
+export const createChannel = createAsyncThunk(
   '@@channel/create-channel',
   async ({ name }, { extra: { socket }, rejectWithValue }) => {
     try {
-      const promise = new Promise((resolve) => {
-        setTimeout(() => resolve(3), 3000);
-      });
-      await promise;
-      socket.emit('newChannel', {
-        name,
-      });
+      socket.emit('newChannel', { name });
       return null;
     } catch {
-      return rejectWithValue('emit channel error');
+      return rejectWithValue('create channel error');
     }
   },
 );
@@ -50,14 +43,7 @@ export const sendRenameChannel = createAsyncThunk(
   '@@channel/rename-channel',
   async ({ name, id }, { extra: { socket }, rejectWithValue }) => {
     try {
-      const promise = new Promise((resolve) => {
-        setTimeout(() => resolve(3), 3000);
-      });
-      await promise;
-      socket.emit('renameChannel', {
-        name,
-        id,
-      });
+      socket.emit('renameChannel', { name, id });
       return null;
     } catch {
       return rejectWithValue('send rename channel');
@@ -69,11 +55,7 @@ export const deleteChannel = createAsyncThunk(
   '@@channel/delete-channel',
   async (idChannel, { extra: { socket }, rejectWithValue }) => {
     try {
-      const promise = new Promise((resolve) => {
-        setTimeout(() => resolve(3), 3000);
-      });
-      await promise;
-      await socket.emit('removeChannel', { id: idChannel });
+      socket.emit('removeChannel', { id: idChannel });
       return null;
     } catch {
       return rejectWithValue('delete error');
@@ -94,7 +76,6 @@ const channelsSlice = createSlice({
       }
     },
     renameChannel: (state, action) => {
-      console.log(action);
       const { id } = action.payload;
       state.entities[id] = { ...state.entities[id], ...action.payload };
     },

@@ -2,7 +2,7 @@ const ruLocal = {
   ru: {
     translation: {
       header: {
-        title: 'Hexlet Chat',
+        title: 'Юнион Чат',
         logOutBtn: 'Выйти',
       },
       notFoundPage: 'Страница не найдена',
@@ -58,6 +58,10 @@ const ruLocal = {
         deleteChannel: 'Канал удален',
         renameChannel: 'Канал переименован',
         error: 'Произошла ошибка, пожалуйста, повторите попытку',
+      },
+      notFound: {
+        message: 'Но вы можете вернутся на ',
+        link: 'главную страницу',
       },
       networkError: 'Ошибка соединения',
       unknownError: 'Неизвестная ошибка',

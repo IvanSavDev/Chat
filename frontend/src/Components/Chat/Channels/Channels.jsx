@@ -4,17 +4,12 @@ import { Button, ButtonGroup, Dropdown } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { selectActiveChat } from '../../../slices/channels-slice';
 import { openModal } from '../../../slices/modals-slice';
-import Modals from './Modals/Modal';
+import Modal from './Modals/Modal';
 
 const Channels = () => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const {
-    ids, entities, currentChannelId,
-  } = useSelector(
-    (state) => state.channels,
-  );
-  const { type } = useSelector((state) => state.modals);
+  const dispatch = useDispatch();
+  const { ids, entities, currentChannelId } = useSelector((state) => state.channels);
 
   const openModalHandler = (typeModal, idChannel = null) => () => {
     dispatch(openModal({ id: idChannel, type: typeModal }));
@@ -22,13 +17,13 @@ const Channels = () => {
 
   return (
     <div>
-      {type && <Modals />}
+      <Modal />
       <div className="mb-2 d-flex">
         <span className="me-auto">{t('chat.channels')}</span>
         <Button
           variant="info"
           className="p-0 w-25 h-25"
-          onClick={openModalHandler('createModal')}
+          onClick={openModalHandler('createChannel')}
         >
           +
         </Button>
@@ -54,10 +49,10 @@ const Channels = () => {
                   id="dropdown-custom-2"
                 />
                 <Dropdown.Menu>
-                  <Dropdown.Item as="button" onClick={openModalHandler('deleteModal', id)}>
+                  <Dropdown.Item as="button" onClick={openModalHandler('deleteChannel', id)}>
                     {t('chat.removeChannel')}
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={openModalHandler('renameModal', id)}>
+                  <Dropdown.Item onClick={openModalHandler('renameChannel', id)}>
                     {t('chat.renameChannel')}
                   </Dropdown.Item>
                 </Dropdown.Menu>
@@ -77,6 +72,6 @@ const Channels = () => {
       })}
     </div>
   );
-}
+};
 
 export default Channels;

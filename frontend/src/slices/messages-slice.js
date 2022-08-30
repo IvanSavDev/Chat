@@ -3,13 +3,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 import { removeChannel, getDataChat } from './channels-slice';
 
-const initialState = {
-  entities: {},
-  ids: [],
-  status: 'fulfilled',
-};
-
-export const emitMessage = createAsyncThunk(
+export const createMessage = createAsyncThunk(
   '@@message/send-message',
   async (message, { getState, extra: { socket }, rejectWithValue }) => {
     try {
@@ -23,10 +17,16 @@ export const emitMessage = createAsyncThunk(
       });
       return null;
     } catch {
-      return rejectWithValue('emit message error');
+      return rejectWithValue('create message error');
     }
   },
 );
+
+const initialState = {
+  entities: {},
+  ids: [],
+  status: 'fulfilled',
+};
 
 const messagesSlice = createSlice({
   name: '@@chat/messages-data',
@@ -63,13 +63,13 @@ const messagesSlice = createSlice({
         });
         state.ids = Object.keys(currentEntities);
       })
-      .addCase(emitMessage.pending, (state) => {
+      .addCase(createMessage.pending, (state) => {
         state.status = 'pending';
       })
-      .addCase(emitMessage.rejected, (state) => {
+      .addCase(createMessage.rejected, (state) => {
         state.status = 'rejected';
       })
-      .addCase(emitMessage.fulfilled, (state) => {
+      .addCase(createMessage.fulfilled, (state) => {
         state.status = 'fulfilled';
       });
   },
