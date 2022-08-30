@@ -3,7 +3,15 @@ import { useTranslation } from 'react-i18next';
 
 const NotFoundPage = () => {
   const { t } = useTranslation();
-  return <h2>{t('notFoundPage')}</h2>;
+  return (
+    <div>
+      <h2 className="text-center">{t('notFoundPage')}</h2>
+      <p>
+        {t('notFound.message')}
+        <a href="/">{t('notFound.link')}</a>
+      </p>
+    </div>
+  );
 };
 
 export default NotFoundPage;
