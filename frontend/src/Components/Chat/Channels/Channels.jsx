@@ -6,7 +6,7 @@ import { selectActiveChat } from '../../../slices/channels-slice';
 import { openModal } from '../../../slices/modals-slice';
 import Modals from './Modals/Modal';
 
-export default function Channels() {
+const Channels = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const {
@@ -78,3 +78,5 @@ export default function Channels() {
     </div>
   );
 }
+
+export default Channels;
