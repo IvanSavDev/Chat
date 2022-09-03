@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { createChannel } from '../../../../slices/channels-slice';
+import { createChannelRequest } from '../../../../slices/channels-slice';
 import { getModalValidationSchema, getChannelsNames } from '../../../../utils/utils';
 
 const CreateChannelModal = ({ closeModal }) => {
@@ -23,11 +23,11 @@ const CreateChannelModal = ({ closeModal }) => {
     validationSchema: getModalValidationSchema(channelsNames),
     onSubmit: async ({ channelName }) => {
       try {
-        await dispatch(createChannel({ name: channelName.trim() })).unwrap();
+        await dispatch(createChannelRequest({ name: channelName.trim() })).unwrap();
         closeModal();
         toast.success(t('notify.createChannel'));
       } catch {
-        toast.error(t('createChannelError'));
+        toast.error(t('error.createChannel'));
       }
     },
     validateOnChange: false,

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Row, Col, Spinner, Button,
+  Col, Spinner,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -10,24 +10,20 @@ import Channels from './Channels/Channels';
 import { getDataChat } from '../../slices/channels-slice';
 import Modal from './Channels/Modals/Modal';
 
-export default function Chat() {
+const Chat = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [fetching, setFetching] = useState(true);
-  const [currentPage, setCurrentPage] = useState('Каналы');
-  const [mobilePage, setMobilePage] = useState(false);
+  const [isChannelPage, setIsChannelPage] = useState(true);
+  const [isMobilePage, setIsMobilePage] = useState(false);
 
-  const changePageHandler = () => {
-    setCurrentPage((prevState) => (
-      prevState === t('chat.channels') ? t('chat.messages') : t('chat.channels')
-    ));
-  };
-
-  const openMessagesPageHandler = () => {
-    if (mobilePage) {
-      setCurrentPage('Сообщения');
+  const openChannelPage = () => {
+    if (isMobilePage) {
+      setIsChannelPage(true);
     }
   };
+
+  const openMessagePage = () => setIsChannelPage(false);
 
   useEffect(() => {
     const firstLoad = async () => {
@@ -49,9 +45,9 @@ export default function Chat() {
     const watchWidthChange = () => {
       const widthClient = document.documentElement.clientWidth;
       if (widthClient < 575) {
-        setMobilePage((isMobilePage) => isMobilePage || true);
+        setIsMobilePage(true);
       } else {
-        setMobilePage((isMobilePage) => isMobilePage && false);
+        setIsMobilePage(false);
       }
     };
     window.addEventListener('resize', watchWidthChange);
@@ -63,23 +59,31 @@ export default function Chat() {
 
   let layout = (
     <>
-      <Col xs={5} sm={5} md={4} lg={3} xl={3} xxl={2} className="overflow-auto border bg-light py-4 h-100">
-        <Channels openMessagesPage={openMessagesPageHandler} />
+      <Col
+        xs={5}
+        sm={5}
+        md={4}
+        lg={3}
+        xl={3}
+        xxl={2}
+        className="h-100 overflow-auto py-4 px-3 border bg-light"
+      >
+        <Channels isMobilePage={isMobilePage} openMessagePage={openMessagePage} />
       </Col>
-      <Col className="bg-light h-100 p-0">
-        <Messages />
+      <Col className="h-100 d-flex flex-column bg-light">
+        <Messages isMobilePage={isMobilePage} openChannelPage={openChannelPage} />
       </Col>
     </>
   );
 
-  if (mobilePage) {
-    layout = currentPage === 'Сообщения' ? (
-      <Col className="bg-light h-100 p-0">
-        <Messages />
+  if (isMobilePage) {
+    layout = isChannelPage ? (
+      <Col className="h-100 overflow-auto py-4 px-3 border bg-light ">
+        <Channels isMobilePage={isMobilePage} openMessagePage={openMessagePage} />
       </Col>
     ) : (
-      <Col className="overflow-auto border bg-light h-100 py-4">
-        <Channels openMessagesPage={openMessagesPageHandler} />
+      <Col className="h-100 d-flex flex-column bg-light">
+        <Messages isMobilePage={isMobilePage} openChannelPage={openChannelPage} />
       </Col>
     );
   }
@@ -89,17 +93,10 @@ export default function Chat() {
       : (
         <>
           <Modal />
-          {mobilePage && (
-            <div className="align-self-start mb-2 py-2">
-              <Button variant="info" onClick={changePageHandler}>
-                {currentPage}
-              </Button>
-            </div>
-          )}
-          <Row className="h-90 flex-grow-1 w-100">
-            {layout}
-          </Row>
+          {layout}
         </>
       )
   );
-}
+};
+
+export default Chat;

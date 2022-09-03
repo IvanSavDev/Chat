@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { sendRenameChannel } from '../../../../slices/channels-slice';
+import { renameChannelRequest } from '../../../../slices/channels-slice';
 import { getModalValidationSchema, getChannelsNames } from '../../../../utils/utils';
 
 const RenameChannelModal = ({ closeModal }) => {
@@ -25,11 +25,11 @@ const RenameChannelModal = ({ closeModal }) => {
     validationSchema: getModalValidationSchema(channeslNames),
     onSubmit: async ({ channelName }) => {
       try {
-        await dispatch(sendRenameChannel({ name: channelName.trim(), id: extra })).unwrap();
+        await dispatch(renameChannelRequest({ name: channelName.trim(), id: extra })).unwrap();
         closeModal();
         toast.success(t('notify.renameChannel'));
       } catch {
-        toast.error(t('renameChannelError'));
+        toast.error(t('error.renameChannel'));
       }
     },
     validateOnChange: false,

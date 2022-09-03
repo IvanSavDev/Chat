@@ -5,7 +5,7 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { deleteChannel } from '../../../../slices/channels-slice';
+import { deleteChannelRequest } from '../../../../slices/channels-slice';
 
 const DeleteChannelModal = ({ closeModal }) => {
   const { t } = useTranslation();
@@ -15,11 +15,11 @@ const DeleteChannelModal = ({ closeModal }) => {
 
   const removeChannel = async () => {
     try {
-      await dispatch(deleteChannel(extra)).unwrap();
+      await dispatch(deleteChannelRequest({ id: extra })).unwrap();
       closeModal();
       toast.success(t('notify.deleteChannel'));
     } catch {
-      toast.error(t('notify.error'));
+      toast.error(t('error.deleteChannel'));
     }
   };
 
