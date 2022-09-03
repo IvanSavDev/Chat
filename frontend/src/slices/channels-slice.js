@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
+import { promisifySocket } from '../utils/utils';
 
 const initialState = {
   entities: {},
@@ -27,39 +28,30 @@ export const getDataChat = createAsyncThunk(
   },
 );
 
-export const createChannel = createAsyncThunk(
+export const createChannelRequest = createAsyncThunk(
   '@@channel/create-channel',
-  async ({ name }, { extra: { socket }, rejectWithValue }) => {
-    try {
-      socket.emit('newChannel', { name });
-      return null;
-    } catch {
-      return rejectWithValue('create channel error');
-    }
+  async (dataToCreate, { extra: { socket } }) => {
+    const createChannelSocket = promisifySocket((...args) => socket.emit('newChannel', ...args));
+    const responce = await createChannelSocket(dataToCreate);
+    return responce;
   },
 );
 
-export const sendRenameChannel = createAsyncThunk(
+export const renameChannelRequest = createAsyncThunk(
   '@@channel/rename-channel',
-  async ({ name, id }, { extra: { socket }, rejectWithValue }) => {
-    try {
-      socket.emit('renameChannel', { name, id });
-      return null;
-    } catch {
-      return rejectWithValue('send rename channel');
-    }
+  async (dataToRename, { extra: { socket } }) => {
+    const renameChannelSocket = promisifySocket((...args) => socket.emit('renameChannel', ...args));
+    const responce = await renameChannelSocket(dataToRename);
+    return responce;
   },
 );
 
-export const deleteChannel = createAsyncThunk(
+export const deleteChannelRequest = createAsyncThunk(
   '@@channel/delete-channel',
-  async (idChannel, { extra: { socket }, rejectWithValue }) => {
-    try {
-      socket.emit('removeChannel', { id: idChannel });
-      return null;
-    } catch {
-      return rejectWithValue('delete error');
-    }
+  async (dataToDelete, { extra: { socket } }) => {
+    const deleteChannelSocket = promisifySocket((...args) => socket.emit('removeChannel', ...args));
+    const responce = await deleteChannelSocket(dataToDelete);
+    return responce;
   },
 );
 

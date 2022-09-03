@@ -2,23 +2,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 import { removeChannel, getDataChat } from './channels-slice';
+import { promisifySocket } from '../utils/utils';
 
 export const createMessage = createAsyncThunk(
   '@@message/send-message',
-  async (message, { getState, extra: { socket }, rejectWithValue }) => {
-    try {
-      const channelId = getState().channels.currentChannelId;
-      const dataFromLocalStorage = localStorage.getItem('userId');
-      const { username } = JSON.parse(dataFromLocalStorage);
-      socket.emit('newMessage', {
-        body: message,
-        username,
-        channelId,
-      });
-      return null;
-    } catch {
-      return rejectWithValue('create message error');
-    }
+  async (message, { getState, extra: { socket } }) => {
+    const channelId = getState().channels.currentChannelId;
+    const dataFromLocalStorage = localStorage.getItem('userId');
+    const { username } = JSON.parse(dataFromLocalStorage);
+    const createMessageSocket = promisifySocket((...arg) => socket.emit('newMessage', ...arg));
+    const responce = await createMessageSocket({
+      body: message,
+      username,
+      channelId,
+    });
+    return responce;
   },
 );
 
