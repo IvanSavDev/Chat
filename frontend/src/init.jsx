@@ -22,8 +22,10 @@ import App from './Components/App';
 const InitialState = async () => {
   const i18n = i18next.createInstance();
 
+  const currentLanguage = localStorage.getItem('language') || 'ru';
+
   await i18n.use(initReactI18next).init({
-    fallbackLng: 'ru',
+    fallbackLng: currentLanguage.toLowerCase(),
     interpolation: {
       escapeValue: false,
     },
