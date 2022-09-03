@@ -5,11 +5,11 @@ import Authorization from '../Components/Chat/Authorization';
 import NotFoundPage from '../Components/Chat/NotFoundPage';
 import AuthRequire from '../hoc/AuthRequire';
 import Chat from '../Components/Chat/Chat';
-import Registration from '../Components/Chat/Registration';
+import RegistrationForm from '../Components/Chat/Registration';
 import AuthRegistration from '../hoc/AuthRegistration';
 
 const Main = () => (
-  <Container className="h-100 m-3 overflow-hidden align-self-center d-flex justify-content-center ">
+  <Container className="h-100 overflow-hidden d-flex justify-content-center py-4">
     <Routes>
       <Route
         path="/"
@@ -24,7 +24,7 @@ const Main = () => (
         path="/signup"
         element={(
           <AuthRegistration>
-            <Registration />
+            <RegistrationForm />
           </AuthRegistration>
         )}
       />
