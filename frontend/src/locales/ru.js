@@ -1,25 +1,23 @@
 const ruLocal = {
   ru: {
     translation: {
-      header: {
-        title: 'Юнион Чат',
-        logOutBtn: 'Выйти',
+      titlePage: 'Юнион Чат',
+      button: {
+        logOut: 'Выйти',
+        logIn: 'Войти',
       },
-      notFoundPage: 'Страница не найдена',
       forms: {
-        username: 'Ваш ник',
+        username: 'Имя пользователя',
         password: 'Пароль',
         authFailed: 'Неверные имя пользователя или пароль',
         requiredName: 'Требуется имя',
         requiredPassword: 'Требуется пароль',
         authorization: {
           title: 'Авторизация',
-          logInBtn: 'Войти',
           footerText: 'Нет аккаунта?',
           link: 'Регистрация',
         },
         registration: {
-          username: 'Имя пользователя',
           title: 'Форма регистрации',
           notMatchPassword: 'Пароли должны совпадать',
           minPassword: 'Не менее 6 символов',
@@ -35,7 +33,7 @@ const ruLocal = {
         removeChannel: 'Удалить',
         renameChannel: 'Переименовать',
         messages: 'Сообщения',
-        placeholderMessages: 'Напишите ваше сообщение здесь',
+        placeholderMessage: 'Напишите сообщение',
         send: 'Отправить',
       },
       modal: {
@@ -60,15 +58,18 @@ const ruLocal = {
         error: 'Произошла ошибка, пожалуйста, повторите попытку',
       },
       notFound: {
+        title: 'Страница не найдена',
         message: 'Но вы можете вернутся на ',
         link: 'главную страницу',
       },
-      networkError: 'Ошибка соединения',
-      unknownError: 'Неизвестная ошибка',
-      authorisationError: 'Ошибка авторизации',
-      messageSendError: 'Ошибка отправки сообщения',
-      createChannelError: 'Ошибка создания канала',
-      renameChannelError: 'Ошибка переименования канала',
+      error: {
+        network: 'Ошибка соединения',
+        authorisation: 'Ошибка авторизации, попробуйте выйти из аккаунта и заново авторизоваться',
+        sendMessage: 'Ошибка отправки сообщения',
+        createChannel: 'Возникла ошибка при создания канала',
+        renameChannel: 'Возникла ошибка при переименования канала',
+        deleteChannel: 'Возникла ошибка при удаления канала',
+      },
     },
   },
 };
