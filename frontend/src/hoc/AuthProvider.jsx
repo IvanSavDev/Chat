@@ -12,10 +12,10 @@ export default function AuthProvider({ children }) {
     setLoggedIn(false);
   };
 
-  const value = useMemo(() => ({ loggedIn, logIn, logOut }), [logIn, logOut, loggedIn]);
+  const authorizationInfo = useMemo(() => ({ loggedIn, logIn, logOut }), [logIn, logOut, loggedIn]);
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={authorizationInfo}>
       {children}
     </AuthContext.Provider>
   );
