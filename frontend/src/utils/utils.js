@@ -24,6 +24,12 @@ export const getCurrentChannelName = (channels, idChannel) => (
     .name
 );
 
+export const getCountMessages = (channels, idsChannels, currentChannelId) => (
+  idsChannels.reduce((acc, id) => (
+    channels[id].channelId === currentChannelId ? acc + 1 : acc
+  ), 0)
+);
+
 export const promisifySocket = (socketFunc) => (...args) => new Promise((resolve, reject) => {
   socketFunc(...args, (responce) => {
     if (responce.status === 'ok') {
