@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import leoProfanity from 'leo-profanity';
 import i18next from 'i18next';
 import { BrowserRouter } from 'react-router-dom';
 import { initReactI18next, I18nextProvider } from 'react-i18next';
@@ -22,9 +21,6 @@ import App from './Components/App';
 
 const InitialState = async () => {
   const i18n = i18next.createInstance();
-
-  const ruDict = leoProfanity.getDictionary('ru');
-  leoProfanity.add(ruDict);
 
   await i18n.use(initReactI18next).init({
     fallbackLng: 'ru',
