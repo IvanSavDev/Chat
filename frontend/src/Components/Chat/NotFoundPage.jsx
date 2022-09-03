@@ -5,7 +5,7 @@ const NotFoundPage = () => {
   const { t } = useTranslation();
   return (
     <div>
-      <h2 className="text-center">{t('notFoundPage')}</h2>
+      <h2 className="text-center">{t('notFound.title')}</h2>
       <p>
         {t('notFound.message')}
         <a href="/">{t('notFound.link')}</a>
