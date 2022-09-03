@@ -35,6 +35,7 @@ const enLocal = {
         messages: 'Messages',
         placeholderMessage: 'Write a message',
         send: 'Send',
+        countMessages: 'Count messages:',
       },
       modal: {
         renameChannel: 'Rename channel',
@@ -45,7 +46,7 @@ const enLocal = {
         newName: 'New name',
         close: 'Close',
         rename: 'Rename',
-        delete: 'delete',
+        delete: 'Delete',
         create: 'Create',
         channelExist: 'This channel already exists',
         requiredField: 'Required field',
