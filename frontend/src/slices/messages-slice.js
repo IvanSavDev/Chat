@@ -23,7 +23,6 @@ export const createMessage = createAsyncThunk(
 const initialState = {
   entities: {},
   ids: [],
-  status: 'fulfilled',
 };
 
 const messagesSlice = createSlice({
@@ -44,10 +43,12 @@ const messagesSlice = createSlice({
     builder
       .addCase(getDataChat.fulfilled, (state, { payload }) => {
         const { messages } = payload;
+        console.log(messages);
         const idMessages = messages.map((message) => message.id);
         if (!isEqual(state.ids, idMessages)) {
           state.ids = idMessages;
         }
+        state.entities = { ...messages };
         messages.forEach((message) => {
           state.entities[message.id] = { ...message };
         });
@@ -60,15 +61,6 @@ const messagesSlice = createSlice({
           }
         });
         state.ids = Object.keys(currentEntities);
-      })
-      .addCase(createMessage.pending, (state) => {
-        state.status = 'pending';
-      })
-      .addCase(createMessage.rejected, (state) => {
-        state.status = 'rejected';
-      })
-      .addCase(createMessage.fulfilled, (state) => {
-        state.status = 'fulfilled';
       });
   },
 });

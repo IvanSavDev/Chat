@@ -7,7 +7,7 @@ const initialState = {
   entities: {},
   ids: [],
   currentChannelId: null,
-  status: 'fulfiled',
+  status: 'fulfilled',
 };
 
 export const getDataChat = createAsyncThunk(
@@ -61,9 +61,8 @@ const channelsSlice = createSlice({
   reducers: {
     addChannel: (state, action) => {
       const { id } = action.payload;
-      const idsState = state.ids;
       state.entities[id] = { ...action.payload };
-      if (!idsState.includes(id)) {
+      if (!state.ids.includes(id)) {
         state.ids.push(id);
       }
     },

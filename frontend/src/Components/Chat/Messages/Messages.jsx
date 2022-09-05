@@ -1,47 +1,33 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Form, Button, InputGroup } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef } from 'react';
+import { Button } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { createMessage } from '../../../slices/messages-slice';
+import ListMessages from './ListMessages';
 import {
   getCurrentChannelName, VALUE_FOR_SCROLL_TO_BOTTOM, getCountMessages,
 } from '../../../utils/utils';
+import MessagesForm from './MessagesForm';
 
 export default function Messages({ isMobilePage, openChannelPage }) {
   const { t } = useTranslation();
-  const [message, setMessage] = useState('');
-  const { ids, entities, status } = useSelector((state) => state.messages);
+  const { ids, entities } = useSelector((state) => state.messages);
   const { entities: channels, currentChannelId } = useSelector((state) => state.channels);
-  const ref = useRef();
-  const refWindowMessage = useRef();
-  const dispatch = useDispatch();
+  const refInputMessage = useRef();
+  const refWindowMessages = useRef();
   const currentChannelName = getCurrentChannelName(channels, currentChannelId);
   const countMessages = getCountMessages(entities, ids, currentChannelId);
 
   useEffect(() => {
-    refWindowMessage.current.scrollTop = VALUE_FOR_SCROLL_TO_BOTTOM;
+    if (refWindowMessages.current) {
+      refWindowMessages.current.scrollTop = VALUE_FOR_SCROLL_TO_BOTTOM;
+    }
   }, [entities]);
 
   useEffect(() => {
-    ref.current.focus();
-  }, [currentChannelId]);
-
-  const handleSubmit = async (event) => {
-    try {
-      event.preventDefault();
-      const { value } = event.target.message;
-      await dispatch(createMessage(value)).unwrap();
-      setMessage('');
-      ref.current.focus();
-    } catch {
-      toast.error(t('error.sendMessage'));
+    if (refInputMessage.current) {
+      refInputMessage.current.focus();
     }
-  };
-
-  const handleMessage = (event) => {
-    setMessage(event.target.value);
-  };
+  }, [currentChannelId, entities]);
 
   return (
     <>
@@ -57,41 +43,13 @@ export default function Messages({ isMobilePage, openChannelPage }) {
         </div>
       </div>
       <div className="h-100 d-flex flex-column overflow-hidden bg-white">
-        <div
-          className=" h-100 d-flex flex-column-reverse overflow-auto px-3 pb-2 border"
-          ref={refWindowMessage}
-        >
-          {[...ids].reverse().map((idMessage) => {
-            const currentMessage = entities[idMessage];
-            if (currentMessage.channelId !== currentChannelId) {
-              return '';
-            }
-            return (
-              <div key={idMessage} className="pt-2 text-break">
-                <span>
-                  <strong>{`${currentMessage.username}: `}</strong>
-                </span>
-                <span>{currentMessage.body}</span>
-              </div>
-            );
-          })}
-        </div>
-        <Form className="mt-auto p-3 border bg-light" onSubmit={handleSubmit}>
-          <InputGroup>
-            <Form.Control
-              name="message"
-              value={message}
-              placeholder={t('chat.placeholderMessage')}
-              onChange={handleMessage}
-              ref={ref}
-              autoComplete="off"
-              className="text-truncate"
-            />
-            <Button variant="info" type="submit" disabled={!message || status === 'pending'}>
-              {t('chat.send')}
-            </Button>
-          </InputGroup>
-        </Form>
+        <ListMessages
+          idsMessages={ids}
+          messages={entities}
+          currentChannelId={currentChannelId}
+          ref={refWindowMessages}
+        />
+        <MessagesForm ref={refInputMessage} />
       </div>
     </>
   );
