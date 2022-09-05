@@ -26,6 +26,24 @@ const AuthorizationForm = () => {
     password: yup.string().required(t('forms.requiredPassword')),
   });
 
+  const handleSubmitForm = async (values) => {
+    try {
+      const request = await axios.post(routes.loginPath(), {
+        ...values,
+      });
+      setAuthFailed(false);
+      logIn();
+      localStorage.setItem('userId', JSON.stringify({ ...request.data }));
+      navigate(fromPath);
+    } catch (error) {
+      if (error.response.status === 401) {
+        setAuthFailed(true);
+      } else {
+        toast.error(t('error.network'));
+      }
+    }
+  };
+
   return (
     <Formik
       initialValues={{
@@ -33,23 +51,7 @@ const AuthorizationForm = () => {
         password: '',
       }}
       validationSchema={schema}
-      onSubmit={async (values) => {
-        try {
-          const request = await axios.post(routes.loginPath(), {
-            ...values,
-          });
-          setAuthFailed(false);
-          logIn();
-          localStorage.setItem('userId', JSON.stringify({ ...request.data }));
-          navigate(fromPath);
-        } catch (error) {
-          if (error.response.status === 401) {
-            setAuthFailed(true);
-          } else {
-            toast.error(t('error.network'));
-          }
-        }
-      }}
+      onSubmit={handleSubmitForm}
     >
       {({
         errors,

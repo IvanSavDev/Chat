@@ -10,7 +10,7 @@ const Header = () => {
   const currentLanguage = localStorage.getItem('language') === 'En' ? 'Ru' : 'En';
   const [language, setLanguage] = useState(currentLanguage);
 
-  const changeLanguageHandler = () => {
+  const handleChangeLanguage = () => {
     const nextLanguage = language === 'En' ? 'Ru' : 'En';
     localStorage.setItem('language', language);
     i18n.changeLanguage(language.toLowerCase());
@@ -18,13 +18,13 @@ const Header = () => {
   };
 
   return (
-    <Navbar bg="light" expand="lg" className="border">
+    <Navbar bg="light" expand="lg" className="border shadow-sm">
       <Container>
         <Navbar.Brand as={Link} to="/">
           {t('titlePage')}
         </Navbar.Brand>
         <div>
-          <Button variant="info" className="me-4" onClick={changeLanguageHandler}>{language}</Button>
+          <Button variant="info" className="me-4" onClick={handleChangeLanguage}>{language}</Button>
           {loggedIn && (
             <Button as={Link} to="/" variant="info" onClick={logOut}>
               {t('button.logOut')}

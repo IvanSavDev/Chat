@@ -49,7 +49,7 @@ const ruLocal = {
         delete: 'Удалить',
         create: 'Создать',
         channelExist: 'Такой канал уже существует',
-        requiredField: 'Обязательно поле',
+        requiredField: 'Обязательное поле',
       },
       loading: 'Загрузка...',
       notify: {

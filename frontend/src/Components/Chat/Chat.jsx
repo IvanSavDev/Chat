@@ -17,14 +17,6 @@ const Chat = () => {
   const [isChannelPage, setIsChannelPage] = useState(true);
   const [isMobilePage, setIsMobilePage] = useState(false);
 
-  const openChannelPage = () => {
-    if (isMobilePage) {
-      setIsChannelPage(true);
-    }
-  };
-
-  const openMessagePage = () => setIsChannelPage(false);
-
   useEffect(() => {
     const firstLoad = async () => {
       try {
@@ -50,12 +42,20 @@ const Chat = () => {
         setIsMobilePage(false);
       }
     };
-    window.addEventListener('resize', watchWidthChange);
     watchWidthChange();
+    window.addEventListener('resize', watchWidthChange);
     return () => {
       window.removeEventListener('resize', watchWidthChange);
     };
   }, []);
+
+  const openChannelPage = () => {
+    if (isMobilePage) {
+      setIsChannelPage(true);
+    }
+  };
+
+  const openMessagePage = () => setIsChannelPage(false);
 
   let layout = (
     <>
@@ -66,11 +66,11 @@ const Chat = () => {
         lg={3}
         xl={3}
         xxl={2}
-        className="h-100 overflow-auto py-4 px-3 border bg-light"
+        className="h-100 overflow-auto py-4 px-3 border bg-light shadow"
       >
         <Channels isMobilePage={isMobilePage} openMessagePage={openMessagePage} />
       </Col>
-      <Col className="h-100 d-flex flex-column bg-light">
+      <Col className="h-100 d-flex flex-column bg-light shadow">
         <Messages isMobilePage={isMobilePage} openChannelPage={openChannelPage} />
       </Col>
     </>
@@ -78,11 +78,11 @@ const Chat = () => {
 
   if (isMobilePage) {
     layout = isChannelPage ? (
-      <Col className="h-100 overflow-auto py-4 px-3 border bg-light ">
+      <Col className="h-100 overflow-auto py-4 px-3 border bg-light shadow">
         <Channels isMobilePage={isMobilePage} openMessagePage={openMessagePage} />
       </Col>
     ) : (
-      <Col className="h-100 d-flex flex-column bg-light">
+      <Col className="h-100 d-flex flex-column bg-light shadow">
         <Messages isMobilePage={isMobilePage} openChannelPage={openChannelPage} />
       </Col>
     );

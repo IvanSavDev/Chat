@@ -37,6 +37,25 @@ const RegistrationForm = () => {
       .required(t('forms.requiredPassword')),
   });
 
+  const handleSubmitForm = async ({ username, password }) => {
+    try {
+      const request = await axios.post(routes.signUpPath(), {
+        username,
+        password,
+      });
+      setAuthFailed(false);
+      logIn();
+      localStorage.setItem('userId', JSON.stringify({ ...request.data }));
+      navigate(fromPath);
+    } catch (error) {
+      if (error.response.status === 409) {
+        setAuthFailed(true);
+      } else {
+        toast.error(t('error.network'));
+      }
+    }
+  };
+
   return (
     <Formik
       initialValues={{
@@ -45,24 +64,7 @@ const RegistrationForm = () => {
         confirmPassword: '',
       }}
       validationSchema={schema}
-      onSubmit={async ({ username, password }) => {
-        try {
-          const request = await axios.post(routes.signUpPath(), {
-            username,
-            password,
-          });
-          setAuthFailed(false);
-          logIn();
-          localStorage.setItem('userId', JSON.stringify({ ...request.data }));
-          navigate(fromPath);
-        } catch (error) {
-          if (error.response.status === 409) {
-            setAuthFailed(true);
-          } else {
-            toast.error(t('error.network'));
-          }
-        }
-      }}
+      onSubmit={handleSubmitForm}
     >
       {({
         errors,
@@ -75,7 +77,7 @@ const RegistrationForm = () => {
           touched={touched}
           setFieldTouched={setFieldTouched}
         >
-          <Form onSubmit={handleSubmit} className="w-75 d-flex flex-column">
+          <Form onSubmit={handleSubmit} className="w-75">
             <UsernameInput
               label={t('forms.username')}
               name="username"

@@ -10,7 +10,7 @@ const Modal = () => {
   const { type } = useSelector((state) => state.modals);
   const dispatch = useDispatch();
 
-  const closeModalHandler = () => {
+  const handleCloseModal = () => {
     dispatch(closeModal());
   };
 
@@ -22,7 +22,7 @@ const Modal = () => {
 
   const Component = mapping[type];
 
-  return Component && <Component closeModal={closeModalHandler} />;
+  return Component && <Component closeModal={handleCloseModal} />;
 };
 
 export default Modal;

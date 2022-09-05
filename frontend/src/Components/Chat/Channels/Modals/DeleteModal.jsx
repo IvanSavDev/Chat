@@ -13,7 +13,7 @@ const DeleteChannelModal = ({ closeModal }) => {
   const { status } = useSelector((state) => state.channels);
   const { extra } = useSelector((state) => state.modals);
 
-  const removeChannel = async () => {
+  const handleRemoveChannel = async () => {
     try {
       await dispatch(deleteChannelRequest({ id: extra })).unwrap();
       closeModal();
@@ -44,7 +44,7 @@ const DeleteChannelModal = ({ closeModal }) => {
           type="submit"
           variant="danger"
           disabled={status === 'pending'}
-          onClick={removeChannel}
+          onClick={handleRemoveChannel}
         >
           {t('modal.delete')}
         </Button>

@@ -9,9 +9,9 @@ const Authorization = () => {
 
   return (
     <Row className="h-100 w-100 justify-content-center align-content-center">
-      <Card className="col-12 col-md-9 col-lg-7 col-xl-6 p-0">
-        <h2 className="text-center p-4">{t('forms.authorization.title')}</h2>
-        <Card.Body className="row mb-4 justify-content-center">
+      <Card className="col-12 col-md-9 col-lg-7 col-xl-6 p-0 shadow">
+        <h2 className="text-center m-0 p-4">{t('forms.authorization.title')}</h2>
+        <Card.Body className="row py-4 justify-content-center">
           <AuthorizationForm />
         </Card.Body>
         <Card.Footer>
