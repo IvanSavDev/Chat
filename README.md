@@ -15,6 +15,7 @@ make install
 ```
 make start
 ```
+This command starts the backend on http://localhost:5000 and the frontend on http://localhost:3000
 
 ## Link to deploy:
 
