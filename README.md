@@ -19,4 +19,4 @@ This command starts the backend on http://localhost:5000 and the frontend on htt
 
 ## Link to deploy:
 
-[Heroku](https://infinite-sierra-68639.herokuapp.com/)
+[Heroku](https://chat-that-connects.herokuapp.com/)
