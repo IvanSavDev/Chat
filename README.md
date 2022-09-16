@@ -1,14 +1,14 @@
 # Union Chat
 
-### Ссылка на публикацию
+## Ссылка на публикацию
 
 [Heroku](https://chat-that-connects.herokuapp.com/)
 
-### Описание
+## Описание
 
 Это чат, который позволяет обмениваться сообщениями в режиме реального времени, создавать отдельные каналы. Построен на технологии WebSocket  с использованием библиотеки socket.io.
 
-### Технологический стек
+## Технологический стек
 - Работа с WebSocket - **[Socket.IO](https://socket.io/)**
 - Построение приложения - **[React](https://reactjs.org/)**
 - State management - **[Redux Toolkit](https://redux-toolkit.js.org/)**
@@ -20,13 +20,13 @@
 - Уведомления об операция - **[React-Toastify](https://github.com/fkhadra/react-toastify#readme)**
 - Сетевые запросы - **[axios](https://github.com/axios/axios)**
 
-### Установка
+## Установка
 
 ```
 make install
 ```
 
-### Запуск
+## Запуск
 
 ```
 make start
