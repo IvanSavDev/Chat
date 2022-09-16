@@ -25,7 +25,6 @@ const CreateChannelModal = ({ closeModal }) => {
 
   const handleSubmitForm = async ({ channelName }) => {
     try {
-      console.log(channelName);
       await dispatch(createChannelRequest({ name: channelName.trim() })).unwrap();
       closeModal();
       toast.success(t('notify.createChannel'));
@@ -53,36 +52,33 @@ const CreateChannelModal = ({ closeModal }) => {
           validateOnChange={false}
           validateOnBlur={false}
         >
-          {({ handleSubmit, errors }) => {
-            console.log(errors);
-            return (
-              <Form onSubmit={handleSubmit}>
-                <ModalInput
-                  label={t('modal.nameChannel')}
-                  name="channelName"
-                  ref={ref}
-                  status={status}
-                />
-                <div className="d-flex justify-content-end">
-                  <Button
-                    variant="secondary"
-                    onClick={closeModal}
-                    className="me-2"
-                    disabled={status === 'pending'}
-                  >
-                    {t('modal.close')}
-                  </Button>
-                  <Button
-                    type="submit"
-                    variant="info"
-                    disabled={status === 'pending'}
-                  >
-                    {t('modal.create')}
-                  </Button>
-                </div>
-              </Form>
-            );
-          }}
+          {({ handleSubmit }) => (
+            <Form onSubmit={handleSubmit}>
+              <ModalInput
+                label={t('modal.nameChannel')}
+                name="channelName"
+                ref={ref}
+                status={status}
+              />
+              <div className="d-flex justify-content-end">
+                <Button
+                  variant="secondary"
+                  onClick={closeModal}
+                  className="me-2"
+                  disabled={status === 'pending'}
+                >
+                  {t('modal.close')}
+                </Button>
+                <Button
+                  type="submit"
+                  variant="info"
+                  disabled={status === 'pending'}
+                >
+                  {t('modal.create')}
+                </Button>
+              </div>
+            </Form>
+          )}
         </Formik>
       </Modal.Body>
     </Modal>

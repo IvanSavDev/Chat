@@ -43,7 +43,6 @@ const messagesSlice = createSlice({
     builder
       .addCase(getDataChat.fulfilled, (state, { payload }) => {
         const { messages } = payload;
-        console.log(messages);
         const idMessages = messages.map((message) => message.id);
         if (!isEqual(state.ids, idMessages)) {
           state.ids = idMessages;
